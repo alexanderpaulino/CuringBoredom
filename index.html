@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Curing Boredom</title>
+	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Font Awesome CSS Icons (For cool glyphicons) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Nicole -->
+<nav class="navbar navbar-default navbar-fixed-top navbar-top">
+  <div class="container-fluid">
+      <ul class="nav navbar-nav">
+     		<li class="search"><a href="#"><i class="fa fa-search fa-lg"></i></a></li>
+        <li class="favorites"><a href="#"><i class="fa fa-heart fa-lg"></i></a></li>
+        <li class="chat"><a href="#"><i class="fa fa-comments-o fa-lg"></i></a></li>
+        <li class="sign-in"><a href="#"><i class="fa fa-user fa-lg"></i></a></li>
+      </ul>
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="wrapper">
+	<div class="container">
+
+		<div class="row bored-label">
+
+			<div class="col-md-12 text-center">
+				<div class="form-group">
+				  <label for="locations" class="label-text">I AM BORED IN:</label>
+				</div>
+			</div>
+		</div> <!-- End Row -->
+
+		<div class="row set-width bored-input">
+			<div class="col-md-4 text-center zip">
+				  <input type="text" class="form-control" id="zipCode" placeholder="Zip Code">
+			</div>
+
+			<div class="col-md-6 text-center city-state">
+				  <input type="text" class="form-control" id="cityState" placeholder="City, State">
+			</div>
+			
+			<div class="col-md-2 text-center">
+  				<button type="submit" class="btn btn-default bored-submit-button submit-button">Submit</button>
+			</div>
+		</div>
+
+
+		<div class="row category-buttons">
+			<div class="col-md-12 text-center categories">
+				<button class="category cat-restaurants" id="selected">RESTAURANTS</button>
+				<button class="category cat-movies">MOVIES</button>
+				<button class="category cat-events">EVENTS</button>
+			</div>
+		</div> <!-- End Row -->
+
+		<div class="row filters">
+			<div class="col-md-12 text-center">
+				<div class="form-group" id="filterSettings">
+					<!-- Setting options will change upon category clicked and will load dynamically -->
+				  <select class="form-control filters" id="filterList">
+				  </select>
+				</div>
+		</div> <!-- End Row -->
+
+		<div class="row full-width" id="eventView">
+			<div class="col-md-12 event-blocks">
+				<!-- Event information will be dumped here -->
+				<div class="col-xs-6 col-sm-6 col-md-6" id="eventInfo">
+				</div>
+					<!-- Event images will be dumped here -->
+					<div class="col-xs-6 col-sm-6 col-md-6" id="eventImage">
+					</div>
+			</div>
+		</div> <!-- End Row -->
+
+	</div> <!-- End Container -->
+</div> <!-- End Wrapper -->
+
+<footer>
+	<nav class="navbar navbar-default navbar-fixed-bottom navbar-bottom">
+	  <div class="container-fluid">
+	      <ul class="nav navbar-nav">
+	     		<li class="search"><a href="#"><i class="fa fa-search fa-lg"></i></a></li>
+	        <li class="favorites"><a href="#"><i class="fa fa-heart fa-lg"></i></a></li>
+	        <li class="chat"><a href="#"><i class="fa fa-comments-o fa-lg"></i></a></li>
+	        <li class="sign-in"><a href="#"><i class="fa fa-user fa-lg"></i></a></li>
+	      </ul>
+	  </div><!-- /.container-fluid -->
+	</nav>
+</footer>
+<!-- JavaScript File -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd64Nz6KSC95FW4ZapCkkmyymF4gPcANg" async defer></script>
+<script src="assets/javascript/app.js"></script>
+
+</body>
+</html>
