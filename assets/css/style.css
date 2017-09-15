@@ -1,0 +1,259 @@
+/*********** Global Styles ***********/
+#selected {
+	border-bottom: 3px solid #d36826;
+	color: #d36826;
+}
+
+button:focus, button:active {
+	outline: none !important;
+}
+
+
+.label-text {
+	color: #d36826;
+}
+
+.set-width, #filterList {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.submit-button:hover {
+	background-color: #d36826;
+	color: #fff;
+}
+
+
+/*********** Navbar ***********/
+.navbar {
+	margin-bottom: -10px;
+	text-align: center;
+}
+
+.navbar-nav li {
+	padding: 0 30px 0 30px
+}
+
+.navbar.center .navbar-inner {
+	text-align: center;
+}
+
+.navbar.center, .navbar-inner, .nav {
+	display: inline-block;
+	float: none;
+}
+
+
+/*********** Main Styling ***********/
+
+.wrapper {
+	background-color: #f4f3f2;
+	padding-top: 20px;
+	width: 100%;
+	overflow: hidden;
+	height: 100%;
+}
+
+.form-control {
+	margin: 0 auto;
+}
+
+.bored-label {
+	padding-top: 60px;
+}
+
+.bored-submit-button {
+	display: inline-block;
+}
+
+.categories {
+	padding-top: 10px;
+}
+
+.category-buttons {
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+}
+
+.category {	
+	padding: 10px 30px 10px 30px;
+	background-color: #f4f3f2;
+	border: none;
+	color: #ed9863;
+}
+
+.cat-restaurants {
+	margin-right: 5%;
+}
+
+.cat-movies {
+	margin-right: 5%;
+}
+
+#filterSettings {
+	padding-top: 30px;
+}
+
+#filterList {
+	margin-bottom: 30px;
+}
+
+#eventView {
+	padding-bottom: 80px;
+}
+
+.event-blocks {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.food-listing, .movie-listing, .event-listing {
+	height: 150px;
+	color: #000;
+	border-radius: 10px 0px 0px 10px;
+	padding: 20px;
+	margin-top: 20px;
+}
+
+#eventInfo {
+	margin-left: 30px;
+}
+
+#eventImage {
+	margin-left: -30px;
+}
+
+.food-listing-image, .movie-listing-image, .event-listing-image {
+	height: 170px;
+	width: 100%;
+	padding-top: 20px;
+	border-top-right-radius: 2em;
+	border-bottom-right-radius: 1em;
+}
+
+.food-listing {
+	background-color: #42c5f4;
+}
+
+.movie-listing {
+	background-color: #44c4a0;
+}
+
+.event-listing {
+	background-color: #c44444;
+}
+
+.my-favorite {
+	color: #f7db6a;
+}
+
+
+/*********** Login Form ***********/
+.login-form {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.login-form input {
+	width: 70%;
+	padding: 25px 10px;
+	margin-top: 20px;
+}
+
+.login-heading {
+	text-align: center;
+	padding-top: 60px;
+}
+
+.create-account {
+	text-align: center;
+}
+
+.create-account a {
+	color: #ed9863;
+	text-decoration: none;
+}
+
+.create-account a:hover {
+	color: #d36826;
+}
+
+.login-submit-button {
+	margin: 0 auto;
+	display: block;
+	margin-top: 20px;
+}
+
+/*********** Media Queries ***********/
+
+@media screen and (max-width: 991px) {
+	#eventInfo {
+		margin-left: 15px;
+	}
+
+	.city-state {
+		margin-top: 20px;
+	}
+
+	.bored-submit-button {
+		margin-top: 20px;
+	}
+	
+
+}
+
+@media screen and (min-width: 481px) {
+	.navbar-bottom {
+		display: none;
+	}
+	.navbar-top li {
+		display: inline-block;
+	}
+
+	.category-buttons {
+		padding-top: 40px;
+	}
+}
+
+@media screen and (max-width: 500px) {
+
+	.category {	
+		padding: 10px 18px 10px 18px;
+	}
+	.cat-restaurants {
+		margin-right: 0;
+	}
+
+	.cat-movies {
+		margin-right: 0;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.navbar-top {
+		display: none;
+	}
+
+	.login-heading {
+		padding-top: 0;
+	}
+
+	.bored-label {
+		padding-top: 10px;
+	}
+
+	.category-buttons {
+		padding-top: 10px;
+	}
+
+	.navbar-bottom li {
+		display: inline-block;
+		padding: 0 15px 0 15px
+	}
+
+}
