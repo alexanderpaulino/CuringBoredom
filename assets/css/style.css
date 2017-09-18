@@ -87,6 +87,19 @@ button:focus, button:active {
 	color: #ed9863;
 }
 
+a {
+	color: black;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: white;
+}
+
+a:focus {
+	color:white;
+}
+
 .cat-restaurants {
 	margin-right: 5%;
 }
@@ -113,7 +126,7 @@ button:focus, button:active {
 }
 
 .food-listing, .movie-listing, .event-listing {
-	height: 150px;
+	min-height: 150px;
 	color: #000;
 	border-radius: 10px 0px 0px 10px;
 	padding: 20px;
@@ -129,7 +142,7 @@ button:focus, button:active {
 }
 
 .food-listing-image, .movie-listing-image, .event-listing-image {
-	height: 170px;
+	min-height: 170px;
 	width: 100%;
 	padding-top: 20px;
 	border-top-right-radius: 2em;

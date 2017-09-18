@@ -125,24 +125,84 @@ function eventAJAX() {
 	// Write all AJAX response information to the page upon category click
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
-	var event1 = $("<div><h3>Event 1</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-	var event2 = $("<div><h3>Event 2</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-	var event3 = $("<div><h3>Event 3</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-		// Write AJAX restaurant images to the page
-	var eventImage1 = $("<img>").addClass("event-listing-image");
-	eventImage1.attr("src", "http://via.placeholder.com/350x150");
-	var eventImage2 = $("<img>").addClass("event-listing-image");
-	eventImage2.attr("src", "http://via.placeholder.com/350x150");
-	var eventImage3 = $("<img>").addClass("event-listing-image");
-	eventImage3.attr("src", "http://via.placeholder.com/350x150");
 
-	$("#eventInfo").append(event1);
-	$("#eventInfo").append(event2);
-	$("#eventInfo").append(event3);
+	var api_key = "ZS4T7zGnxq66H8Kv";
+	var queryURL = "http://api.eventful.com/json/events/search?";
 
-	$("#eventImage").append(eventImage1);
-	$("#eventImage").append(eventImage2);
-	$("#eventImage").append(eventImage3);
+	var zipCode = $("#zipCode").val().trim();
+	zipCode = "10001";
+	var category = $("#input-category").val();
+	category = "music";
+	$("#input-zipCode").val("");
+	$("#input-category").val("");
+
+	var searchURL = queryURL + "app_key=" + api_key + "&location=" + zipCode + "&category=" + category;
+	console.log(searchURL);
+
+	$.ajax({
+		url: searchURL,
+		method: "GET",
+	}).done(function(response) {
+		console.log(JSON.parse(response).events);
+		results = JSON.parse(response).events.event;
+		for (var i = 0; i < results.length; i++) {
+			var title = results[i].title;
+			var description = results[i].description;
+			var start = results[i].start_time;
+			var end = results[i].stop_time;
+			var address = results[i].venue_address;
+			var city = results[i].city_name;
+			var state = results[i].region_name;
+			var code = results[i].postal_code;
+			var link = results[i].url;
+
+			var startDate = start.slice(0,11);
+			startDate = moment(startDate, "YYYY/MM/DD");
+			startDate = moment(startDate).format("ll");
+			
+			var startTime = start.slice(11,21);
+			startTime = moment(startTime, "HH:mm:ss");
+			startTime = moment(startTime).format("LT");
+
+			if (title === null) {title = "";}
+			if (description === null) {description = "";}
+			if (description.length > 50) {
+				description = description.split(/\s+/).slice(0,51).join(" ");
+				description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
+			}
+			if (start === null) {start = "";}
+			if (end === null) {
+				var endDate = "Unknown";
+				var endTime = "";
+			}
+			else {
+				var endDate = end.slice(0,11);
+				endDate = moment(endDate, "YYYY/MM/DD");
+				endDate = moment(endDate).format("ll");
+
+				var endTime = end.slice(11,21);
+				endTime = moment(endTime, "HH:mm:ss");
+				endTime = moment(endTime).format("LT");
+			}
+			if (address === null) {address = "";}
+			if (city === null) {city = "";}
+			if (state === null) {state = "";}
+			if (code === null) {code = "";}
+			if (link === null) {link = "";}
+
+			var article = $("<div>");
+			article.addClass("event-listing");
+			article.append("<p><h3><a href=" + link + " target='_blank'>"+ title + "</a>" + "</h3></p>");
+			article.append("<p>" + description + "</p>");
+			article.append("<p>Start Date: " + startDate + " " + startTime + "<br>End Date: " + endDate + " " + endTime + "</p>");
+			article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
+			var eventImage = $("<img>").addClass("event-listing-image");
+			eventImage.attr("src", "http://via.placeholder.com/350x150");
+
+			$("#eventInfo").append(article);
+			$("#eventImage").append(eventImage);
+		}
+	});
 }
 
 
