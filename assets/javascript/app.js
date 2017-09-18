@@ -1,12 +1,6 @@
 
-
-
-// Nicole ---------------------------------------
-
-
 // Global Variables
 var selectedFilter;
-
 
 // Write restaurant filters to the page on page load as well as AJAX response as a default setting
 $(document).ready(function () {
@@ -62,9 +56,7 @@ function selectFilter() {
 		console.log("User Selected Filter: " + selectedFilter);
 		// Write AJAX response information to the page based on selected filter
 
-		// if(selectedFilter === "Action/Adventure") {
-				// 
-			// }
+
 
 	})
 }
@@ -72,37 +64,58 @@ selectFilter();
 
 
 function restaurantAJAX() { 
-	// Write AJAX restaurant response information to the page
-	$("#eventInfo").empty();
-	$("#eventImage").empty();
-	var restaurant1 = $("<div><h3>Restaurant 1</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("food-listing");
-	var restaurant2 = $("<div><h3>Restaurant 2</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("food-listing");
-	var restaurant3 = $("<div><h3>Restaurant 3</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("food-listing");
-	// Write AJAX restaurant images to the page
-	var restaurantImage1 = $("<img>").addClass("food-listing-image");
-	restaurantImage1.attr("src", "http://via.placeholder.com/350x150");
-	var restaurantImage2 = $("<img>").addClass("food-listing-image");
-	restaurantImage2.attr("src", "http://via.placeholder.com/350x150");
-	var restaurantImage3 = $("<img>").addClass("food-listing-image");
-	restaurantImage3.attr("src", "http://via.placeholder.com/350x150");
+		// Write AJAX restaurant response information to the page
+	  var cuisine = selectedFilter;
+	  console.log(cuisine);
+	  var cuisineID = ""
+	  
+	  var lat = "40.742051";
+	  var lng = "-74.004821";
+	  
+	  if (cuisine === "Chinese"){
+	  cuisineID = 25;
+	  }
 
-	$("#eventInfo").append(restaurant1);
-	$("#eventInfo").append(restaurant2);
-	$("#eventInfo").append(restaurant3);
+	  console.log("Cuisine ID: "+cuisineID);
 
-	$("#eventImage").append(restaurantImage1);
-	$("#eventImage").append(restaurantImage2);
-	$("#eventImage").append(restaurantImage3);
+	  var api = "a46b84ae7de46097b35a230d8d7bfd23"
+	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api
+
+	  console.log(url)
+
+	  $.ajax({
+	  url: url,
+	  method: 'GET',
+	  }).done(function(result) {
+	  console.log(result);
+	    for (var i = 0; i < result.nearby_restaurants.length; i++) {
+	      var restaurant = $("<div>");
+	      restaurant.addClass("food-listing");
+	      restaurant.append("<h5>"+(i+1)+"</h5>");
+	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu'>View Menu</a><br><a class='my-favorite' href='#'>Add to Favorites <i class='fa fa-heart fa-sm'></i></a>");
+	      restaurant.append(result.nearby_restaurants[i].restaurant.location.address + "<br>");
+	      restaurant.append(result.nearby_restaurants[i].restaurant.cuisines + "<br>");
+	      restaurant.append("Average cost for two: $"+result.nearby_restaurants[i].restaurant.average_cost_for_two+"<br>");
+	      restaurant.append("<em>Rating: "+result.nearby_restaurants[i].restaurant.user_rating.aggregate_rating+" out of 4</em>"+"<br>");
+	      restaurant.append("<em>Rating Grade: "+result.nearby_restaurants[i].restaurant.user_rating.rating_text+"</em><br>");
+	      $("#eventInfo").append(restaurant);
+
+	      var restaurantImage = $("<img>").addClass("food-listing-image");
+	      restaurantImage.attr("src", result.nearby_restaurants[i].restaurant.thumb);
+	      $("#eventImage").append(restaurantImage);
+	    };
+	}).fail(function(err) {
+	  throw err;
+	});
 }
 
 
 function movieAJAX() {
 	// Write all AJAX response information to the page upon category click
-	$("#eventInfo").empty();
-	$("#eventImage").empty();
-	var movie1 = $("<div><h3>Movie 1</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
-	var movie2 = $("<div><h3>Movie 2</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
-	var movie3 = $("<div><h3>Movie 3</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
+
+	var movie1 = $("<div><h4>Movie 1</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
+	var movie2 = $("<div><h4>Movie 2</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
+	var movie3 = $("<div><h4>Movie 3</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
 		// Write AJAX restaurant images to the page
 	var movieImage1 = $("<img>").addClass("movie-listing-image");
 	movieImage1.attr("src", "http://via.placeholder.com/350x150");
@@ -125,9 +138,9 @@ function eventAJAX() {
 	// Write all AJAX response information to the page upon category click
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
-	var event1 = $("<div><h3>Event 1</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-	var event2 = $("<div><h3>Event 2</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-	var event3 = $("<div><h3>Event 3</h3><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
+	var event1 = $("<div><h4>Event 1</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
+	var event2 = $("<div><h4>Event 2</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
+	var event3 = $("<div><h4>Event 3</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
 		// Write AJAX restaurant images to the page
 	var eventImage1 = $("<img>").addClass("event-listing-image");
 	eventImage1.attr("src", "http://via.placeholder.com/350x150");
@@ -151,8 +164,7 @@ function loadSearchScreen() {
 	restaurantAJAX();
 	$(".login").hide();
 	$(".new-account").hide();
-	$(".bored-label").show();
-	$(".bored-input").show();
+	$(".user-input").show();
 	$("#filterList").show();
 	$(".category-buttons").show();
 	$(".bored-label").show();
@@ -162,20 +174,30 @@ function loadSearchScreen() {
 }
 
 
+function loadFavoritesScreen() {
+	$(".login").hide();
+	$(".new-account").hide();
+	$(".user-input").hide();
+	$("#filterList").hide();
+	$(".category-buttons").hide();
+	$(".bored-label").hide();
+	$(".bored-input").hide();
+}
+
+
 function loadSignInScreen() {
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
-	$(".bored-label").hide();
-	$(".bored-input").hide();
+	$(".user-input").hide();
 	$("#filterList").hide();
 	$(".category-buttons").hide();
 	var signInScreen = ($("<h2 class='login-heading'>Login</h2><br><h5 class='create-account'><a href='#'>New User? Create an Account</a></h5>"
-									+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
-									+ "<input type='text' class='form-control' id='userName' placeholder='First Name'>"
-									+ "<input type='password' class='form-control' id='userPassword' placeholder='Password'>"
-									+ "<input type='email' class='form-control' id='userEmail' placeholder='Email'></div></div></div>"
-								  + "<button type='submit' class='btn btn-default login-submit-button submit-button'>Submit</button>"
-									));
+						+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
+						+ "<input type='text' class='form-control' id='userName' placeholder='First Name'>"
+						+ "<input type='text' class='form-control' id='accountName' placeholder='Account Name'>"
+						+ "<input type='password' class='form-control' id='userPassword' placeholder='Password'>"
+						+ "<button type='submit' class='btn btn-default user-login submit-button'>Submit</button>"
+						));
 
 	$(signInScreen).addClass("login");
 	$("#eventView").append(signInScreen);
@@ -184,13 +206,14 @@ function loadSignInScreen() {
 
 function loadCreateAccountScreen() {
 	var createAccountScreen = ($("<h2 class='login-heading'>Create Account</h2><br><h5 class='create-account'><a href='#'>New User? Create an Account</a></h5>"
-									+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
-									+ "<input type='text' class='form-control' id='userName' placeholder='First Name'>"
-									+ "<input type='password' class='form-control' id='userPassword' placeholder='Password'>"
-									+ "<input type='password' class='form-control' id='userPassword' placeholder='Confirm Password'>"
-									+ "<input type='email' class='form-control' id='userEmail' placeholder='Email'></div></div></div>"
-								  + "<button type='submit' class='btn btn-default login-submit-button submit-button'>Submit</button>"
-									));
+							+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
+							+ "<input type='text' class='form-control' id='newUserName' placeholder='First Name'>"
+							+ "<input type='text' class='form-control' id='newAccountName' placeholder='Account Name'>"
+							+ "<input type='password' class='form-control' id='newUserPassword' placeholder='Password'>"
+							+ "<input type='password' class='form-control' id='confirmPassword' placeholder='Confirm Password'>"
+							+ "<input type='email' class='form-control' id='newUserEmail' placeholder='Email'></div></div></div>"
+							+ "<button type='submit' class='btn btn-default add-user submit-button'>Submit</button>"
+							));
 
 	$(createAccountScreen).addClass("new-account");
 	$(".login").hide();
@@ -199,13 +222,20 @@ function loadCreateAccountScreen() {
 
 
 
-
 // All on click events
 $(document).on("click", ".search", function() {
+	$("#eventInfo").empty();
+	$("#eventImage").empty();
 	$(".sign-in").prop("disabled", false);
 	loadSearchScreen();
 });
 
+$(document).on("click", ".favorites", function() {
+	$("#eventInfo").empty();
+	$("#eventImage").empty();
+	$(".sign-in").prop("disabled", false);
+	loadFavoritesScreen();
+});
 
 $(document).on("click", ".sign-in", function() {
 	$(".sign-in").prop("disabled", true);
@@ -220,13 +250,14 @@ $(document).on("click", ".create-account", function() {
 
 $(document).on("click", ".bored-submit-button", function(event) {
 	event.preventDefault();
-	$(".bored-label").hide();
-	$(".bored-input").hide();
+	$(".user-input").hide();
 });
 
 
 // On click events for categories - List different options in each category
 $(document).on("click", ".category", function() {
+	$("#eventInfo").empty();
+	$("#eventImage").empty();
 	$(".cat-restaurants").removeAttr("id", "selected");
 	$(".category").removeAttr("id", "selected");
 	$(this).attr("id", "selected");
@@ -266,4 +297,94 @@ $(document).on("click", ".category", function() {
 
 
 
+ // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAH0p97UUJUHYcSXplmLkCUDPTbTOWituw",
+    authDomain: "curingboredom-d4b4e.firebaseapp.com",
+    databaseURL: "https://curingboredom-d4b4e.firebaseio.com",
+    projectId: "curingboredom-d4b4e",
+    storageBucket: "curingboredom-d4b4e.appspot.com",
+    messagingSenderId: "403783343234"
+  };
+
+  firebase.initializeApp(config);
+
+   var dataRef = firebase.database();
+
+   var newName = "";
+   var newAccountName = "";
+   var newPassword = "";
+   var newEmail = "";
+
+   var name = "";
+   var accountName = "";
+   var password = "";
+   var storedUserName = [];
+
+
+   // When user creates a new account
+   $(document).on("click", ".add-user", function(event) { 
+   	event.preventDefault();
+
+   	newUserName = $("#newUserName").val().trim().toLowerCase();
+    newAccountName = $("#newAccountName").val().trim().toLowerCase();
+   	newUserPassword = $("#newUserPassword").val().trim();
+   	newUserEmail = $("#newUserEmail").val().trim();
+
+    // Code for the push
+    dataRef.ref().push({
+
+    newName: newUserName,
+    newAccount: newAccountName,
+    newPassword: newUserPassword,
+    newEmail: newUserEmail,
+    });
+
+	clearNewUserInput();
+
+   });
+
+
+   // When user logs in
+
+   $(document).on("click", ".user-login", function(event) { 
+   	event.preventDefault();
+
+   	name = $("#userName").val().trim().toLowerCase();
+    accountName = $("#accountName").val().trim().toLowerCase();
+   	password = $("#userPassword").val().trim();
+
+
+   	dataRef.ref().on("child_added", function(childSnapshot) {
+   		console.log(childSnapshot.val());
+   		storedUserName.push(childSnapshot.val());
+
+   	// 	if(childSnapshot.child("newName").exists()) { 
+
+    //     if(storedUserName.newName === name) {
+    //     	alert("user exists");
+    //     } else {
+    //     	alert("create a new account");
+    //     }
+
+    //     console.log(storedUserName);
+    //     console.log(storedUserName.newName);
+
+
+    // }
+	});
+
+
+   });
+
+
+
+  // Empty the values of the input fields
+  function clearNewUserInput() {
+    $("#newUserName").val("");
+    $("#newAccountName").val("");
+    $("#newUserPassword").val("");
+    $("#confirmPassword").val("");
+    $("#newUserEmail").val("");
+  }
 
