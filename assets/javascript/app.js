@@ -49,6 +49,12 @@ function loadEventFilters() {
 	$("option").addClass("currentFilterOptions");
 }
 
+function createErrorMessage() {
+    var createErrorMessage = $("<div>");
+    createErrorMessage.addClass("error-message");
+    createErrorMessage.html("Please enter a zip code or a City, State.");
+    $(".user-input").append(createErrorMessage);
+}
 
 function selectFilter() {
 	$("select.filters").change(function () {
@@ -64,7 +70,6 @@ selectFilter();
 function restaurantAJAXonLoad() { 
 		// Write AJAX restaurant response information to the page
 	  var cuisine = selectedFilter;
-	  console.log(cuisine);
 	  var cuisineID = ""
 	  
 	  var lat = "40.742051";
@@ -106,23 +111,40 @@ function restaurantAJAXEverything() {
 	  var zipcode = $("#zipCode").val();
     console.log(zipcode);
     var cuisine = selectedFilter;
-    console.log(cuisine);
     var cuisineID = ""
 
 	  geocoder = new google.maps.Geocoder();
     
     var lat = "";
     var lng = "";
-    var address = zipcode;
+    var address = "";
+
+    if ($("#cityState").val() === "") {
+    address = zipcode;
+  	} else {
+  		address = $("#cityState").val();
+  	}
+
+  	console.log(address);
+
     geocoder.geocode( { 'address': address}, function(results, status) {
+    	console.log(results)
       if (status == google.maps.GeocoderStatus.OK) {
          lat = results[0].geometry.location.lat();
          lng = results[0].geometry.location.lng();
         }
       console.log("Latitude: "+lat);
       console.log("Longitude: "+lng);
-      var api = "a46b84ae7de46097b35a230d8d7bfd23"
+
+      if (address === ""){
+      	createErrorMessage();
+      	return false;
+      }
+
+    var api = "a46b84ae7de46097b35a230d8d7bfd23"
 	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api+"&sort=rating&order=desc"
+
+	  $(".error-message").html("")
 
 	  console.log(url)
 
@@ -163,7 +185,6 @@ function restaurantAJAX() {
     var zipcode = $("#zipCode").val();
     console.log(zipcode);
     var cuisine = selectedFilter;
-    console.log(cuisine);
     var cuisineID = ""
 
     $("#zipCode").empty();
@@ -173,12 +194,25 @@ function restaurantAJAX() {
     
     var lat = "";
     var lng = "";
-    var address = zipcode;
+    var address = "";
+
+    if ($("#cityState").val() === "") {
+    address = zipcode;
+  	} else {
+  		address = $("#cityState").val();
+  	}
+
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
          lat = results[0].geometry.location.lat();
          lng = results[0].geometry.location.lng();
         }
+
+      if (address === ""){
+      createErrorMessage();
+      return false;
+      }
+
       console.log("Latitude: "+lat);
       console.log("Longitude: "+lng);
 
@@ -229,6 +263,8 @@ function restaurantAJAX() {
       var url = "https://developers.zomato.com/api/v2.1/search?start=0&count=15&sort=rating&sort=desc&lat="+lat+"&lon="+lng+"&cuisines="+cuisineID+"&radius=16090&apikey="+api
 
       console.log(url)
+
+      $(".error-message").html("")
 
       $.ajax({
       url: url,
@@ -398,8 +434,19 @@ $(document).on("click", ".create-account", function() {
 });
 
 $(document).on("click", ".bored-submit-button", function(event) {
-	event.preventDefault();
-	restaurantAJAX();
+    event.preventDefault();
+    var zip = $("#zipCode").val();
+    var city = $("#cityState").val();
+    console.log(zip.length);
+    console.log(city.length);
+
+    if (zip.length != 5 && $("#cityState").val() === "") {
+      createErrorMessage();
+      return false;
+    } else { 
+        restaurantAJAX();
+        $(".error-message").remove();
+    }
 });
 
 
