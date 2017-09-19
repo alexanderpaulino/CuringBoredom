@@ -19,7 +19,7 @@ function loadRestaurantFilters() {
 	+ "<option class='fast-food'>Fast Food</option> <option class='french'>French</option> <option class='greek'>Greek</option> <option class='dessert'>Ice Cream/Dessert</option>"
 	+ "<option class='indian'>Indian</option> <option class='italian'>Italian</option> <option class='japanese'>Japanese</option> <option class='mexican'>Mexican</option>"
 	+ "<option class='pizza'>Pizza</option> <option class='seafood'>Seafood</option> <option class='spanish'>Spanish</option> <option class='thai'>Thai</option>");
-	$("option").addClass("currentFilterOptions");
+	$("option").addClass("food currentFilterOptions");
 }
 
 
@@ -46,14 +46,11 @@ function loadEventFilters() {
 	+ "<option class='baseball'>Baseball</option> <option class='basketball'>Basketball</option> <option class='football'>Football</option> <option class='golf'>Golf</option>"
 	+ "<option class='horse-racing'>Horse Racing</option> <option class='hockey'>Ice Hockey</option> <option class='nascar'>Nascar</option> <option class='soccer'>Soccer</option>"
 	+ "<option class='tennis'>Tennis</option> </optgroup>");
-	$("option").addClass("currentFilterOptions");
+	$("option").addClass("event currentFilterOptions");
 }
 
 function createErrorMessage() {
-    var createErrorMessage = $("<div>");
-    createErrorMessage.addClass("error-message");
-    createErrorMessage.html("Please enter a valid US zip code or City and State.");
-    $(".user-input").append(createErrorMessage);
+    $(".error-message").html("Please enter a valid US zip code or City and State.");
 }
 
 function selectFilter() {
@@ -61,8 +58,26 @@ function selectFilter() {
 		selectedFilter = $(".filters option:selected").text();
 		console.log("User Selected Filter: " + selectedFilter);
 		// Write AJAX response information to the page based on selected filter
-		restaurantAJAX();
-	})
+		var zip = $("#zipCode").val();
+    var city = $("#cityState").val();
+    console.log(zip.length);
+    console.log(city.length);
+
+    if (zip.length != 5 && $("#cityState").val() === "") {
+      createErrorMessage();
+      return false;
+    } else {
+				if ($(".filters option:selected").hasClass("food")) {
+				restaurantAJAX();
+				console.log("Running restaurantAJAX");
+				}
+				if ($(".filters option:selected").hasClass("event")) {
+					eventAJAX();
+					console.log("Running eventAJAX");
+				}
+        $(".error-message").remove();
+    }
+	});
 }
 selectFilter();
 
@@ -360,24 +375,128 @@ function eventAJAX() {
 	// Write all AJAX response information to the page upon category click
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
-	var event1 = $("<div><h4>Event 1</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-	var event2 = $("<div><h4>Event 2</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-	var event3 = $("<div><h4>Event 3</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("event-listing");
-		// Write AJAX restaurant images to the page
-	var eventImage1 = $("<img>").addClass("event-listing-image");
-	eventImage1.attr("src", "http://via.placeholder.com/350x150");
-	var eventImage2 = $("<img>").addClass("event-listing-image");
-	eventImage2.attr("src", "http://via.placeholder.com/350x150");
-	var eventImage3 = $("<img>").addClass("event-listing-image");
-	eventImage3.attr("src", "http://via.placeholder.com/350x150");
 
-	$("#eventInfo").append(event1);
-	$("#eventInfo").append(event2);
-	$("#eventInfo").append(event3);
+	var api_key = "ZS4T7zGnxq66H8Kv";
+	var queryURL = "https://eventful-proxy.herokuapp.com/search?";
 
-	$("#eventImage").append(eventImage1);
-	$("#eventImage").append(eventImage2);
-	$("#eventImage").append(eventImage3);
+	var address = $("#zipCode").val().trim();
+	if (address === "") {
+		address = $("#cityState").val().trim();
+	}
+
+	getKeyword();
+
+	var searchURL = queryURL + "app_key=" + api_key + "&location=" + address + "&within=15&keywords=" + keywords + "&date=today";
+	console.log(searchURL);
+
+	$.ajax({
+		url: searchURL,
+		method: "GET",
+	}).done(function(response) {
+		console.log(JSON.parse(response).events);
+		results = JSON.parse(response).events.event;
+		for (var i = 0; i < results.length; i++) {
+			var title = results[i].title;
+			var description = results[i].description;
+			var start = results[i].start_time;
+			var end = results[i].stop_time;
+			var address = results[i].venue_address;
+			var city = results[i].city_name;
+			var state = results[i].region_name;
+			var code = results[i].postal_code;
+			var link = results[i].url;
+
+			var startDate = start.slice(0,11);
+			startDate = moment(startDate, "YYYY/MM/DD");
+			startDate = moment(startDate).format("ll");
+			
+			var startTime = start.slice(11,21);
+			startTime = moment(startTime, "HH:mm:ss");
+			startTime = moment(startTime).format("LT");
+
+			if (title === null) {title = "";}
+			// if (description === null) {description = "";}
+			// if (description.length > 50) {
+			// 	description = description.split(/\s+/).slice(0,51).join(" ");
+			// 	description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
+			// }
+			if (start === null) {start = "";}
+			if (end === null) {
+				var endDate = "Unknown";
+				var endTime = "";
+			}
+			else {
+				var endDate = end.slice(0,11);
+				endDate = moment(endDate, "YYYY/MM/DD");
+				endDate = moment(endDate).format("ll");
+
+				var endTime = end.slice(11,21);
+				endTime = moment(endTime, "HH:mm:ss");
+				endTime = moment(endTime).format("LT");
+			}
+			if (address === null) {address = "";}
+			if (city === null) {city = "";}
+			if (state === null) {state = "";}
+			if (code === null) {code = "";}
+			if (link === null) {link = "";}
+
+			var article = $("<div>");
+			article.addClass("event-listing");
+			article.append("<h4><strong>"+ title + "</strong></h4>");
+			// article.append("<p>" + description + "</p>");
+			article.append("<p>Start Date: " + startDate + " " + startTime + "<br>End Date: " + endDate + " " + endTime + "</p>");
+			article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
+			article.append("<p><a href=" + link + " target='_blank'>Read More</a></p>");
+			var eventImage = $("<img>").addClass("event-listing-image");
+			// eventImage.attr("src", "http://via.placeholder.com/350x150");
+			eventImage.attr("src", "assets/images/" + keywords + ".jpg");
+			
+
+			$("#eventInfo").append(article);
+			$("#eventImage").append(eventImage);
+		}
+	});
+}
+
+function getKeyword() {
+	keywords = $(".filters option:selected").text().toLowerCase();
+	console.log(keywords);
+	if (keywords === "whatcha interested in? (show me it all!)") {
+		keywords = "activity";
+	}
+	if (keywords === "all entertainment") {
+		keywords = "community";
+	}
+	if (keywords === "all concerts") {
+		keywords = "music";
+	}
+	if (keywords === "all sporting events") {
+		keywords = "sports";
+	}
+	if (keywords === 'art exhibitions') {
+		keywords = "art";
+	}
+	if (keywords === "carnivals") {
+		keywords = "carnival";
+	}
+	if (keywords === "comedy shows") {
+		keywords = "comedy";
+	}
+	if (keywords === "hip-hop") {
+		keywords = "hiphop";
+	}
+	if (keywords === "kids' events") {
+		keywords = "kid";
+	}
+	if (keywords === "horse racing") {
+		keywords = "horseracing";
+	}
+	if (keywords === "ice hockey") {
+		keywords = "icehockey";
+	}
+	if (keywords === "music festivals") {
+		keywords = "musicfestival";
+	}
 }
 
 
@@ -480,8 +599,15 @@ $(document).on("click", ".bored-submit-button", function(event) {
     if (zip.length != 5 && $("#cityState").val() === "") {
       createErrorMessage();
       return false;
-    } else { 
-        restaurantAJAX();
+    } else {
+				if ($(".filters option:selected").hasClass("food")) {
+				restaurantAJAX();
+				console.log("Running restaurantAJAX");
+				}
+				if ($(".filters option:selected").hasClass("event")) {
+					eventAJAX();
+					console.log("Running eventAJAX");
+				}
         $(".error-message").remove();
     }
 });
