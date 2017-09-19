@@ -377,7 +377,8 @@ function eventAJAX() {
 	$("#eventImage").empty();
 
 	var api_key = "ZS4T7zGnxq66H8Kv";
-	var queryURL = "https://eventful-proxy.herokuapp.com/search?";
+	// var queryURL = "https://eventful-proxy.herokuapp.com/search?";
+	var queryURL = "https://api.eventful.com/json/events/search?";
 
 	var address = $("#zipCode").val().trim();
 	if (address === "") {
@@ -391,10 +392,12 @@ function eventAJAX() {
 
 	$.ajax({
 		url: searchURL,
-		method: "GET",
+		dataType: 'jsonp',
+		method: "POST",
 	}).done(function(response) {
-		console.log(JSON.parse(response).events);
-		results = JSON.parse(response).events.event;
+		// console.log(JSON.parse(response).events);
+		console.log(response);
+		results = response.events.event;
 		for (var i = 0; i < results.length; i++) {
 			var title = results[i].title;
 			var description = results[i].description;
