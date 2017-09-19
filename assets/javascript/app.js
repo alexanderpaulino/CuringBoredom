@@ -210,7 +210,9 @@ function eventAJAX() {
 			article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
 			article.append("<p><a href=" + link + " target='_blank'>Read More</a></p>");
 			var eventImage = $("<img>").addClass("event-listing-image");
-			eventImage.attr("src", "http://via.placeholder.com/350x150");
+			// eventImage.attr("src", "http://via.placeholder.com/350x150");
+			eventImage.attr("src", "assets/images/" + keywords + ".jpg");
+			
 
 			$("#eventInfo").append(article);
 			$("#eventImage").append(eventImage);
@@ -219,21 +221,45 @@ function eventAJAX() {
 }
 
 function getKeyword() {
-	keywords = $(".filters option:selected").text();
-	if (keywords === "Whatcha interested in? (Show me it all!)") {
-		keywords = "";
+	keywords = $(".filters option:selected").text().toLowerCase();
+	console.log(keywords);
+	if (keywords === "whatcha interested in? (show me it all!)") {
+		keywords = "activity";
 	}
-	if (keywords === "All Entertainment") {
+	if (keywords === "all entertainment") {
 		keywords = "community";
 	}
-	if (keywords === "All Concerts") {
+	if (keywords === "all concerts") {
 		keywords = "music";
 	}
-	if (keywords === "All Sporting Events") {
+	if (keywords === "all sporting events") {
 		keywords = "sports";
 	}
+	if (keywords === 'art exhibitions') {
+		keywords = "art";
+	}
+	if (keywords === "carnivals") {
+		keywords = "carnival";
+	}
+	if (keywords === "comedy shows") {
+		keywords = "comedy";
+	}
+	if (keywords === "hip-hop") {
+		keywords = "hiphop";
+	}
+	if (keywords === "kids' events") {
+		keywords = "kid";
+	}
+	if (keywords === "horse racing") {
+		keywords = "horseracing";
+	}
+	if (keywords === "ice hockey") {
+		keywords = "icehockey";
+	}
+	if (keywords === "music festivals") {
+		keywords = "musicfestival";
+	}
 }
-
 
 function loadSearchScreen() {
 	loadRestaurantFilters(); 
