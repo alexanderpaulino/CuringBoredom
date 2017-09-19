@@ -138,13 +138,17 @@ function eventAJAX() {
 	var api_key = "ZS4T7zGnxq66H8Kv";
 	var queryURL = "http://api.eventful.com/json/events/search?";
 
-	var zipCode = $("#zipCode").val().trim();
-	if (zipCode === "") {
-		zipCode = "10001";
+	var address = $("#zipCode").val().trim();
+	if (address === "") {
+		address = $("#cityState").val().trim();
+		if (address === "") {
+			console.log("THROW ERROR");
+		}
 	}
+
 	getKeyword();
 
-	var searchURL = queryURL + "app_key=" + api_key + "&location=" + zipCode + "&within=25&keywords=" + keywords + "&date=today";
+	var searchURL = queryURL + "app_key=" + api_key + "&location=" + address + "&within=15&keywords=" + keywords + "&date=today";
 	console.log(searchURL);
 
 	$.ajax({
@@ -200,7 +204,7 @@ function eventAJAX() {
 
 			var article = $("<div>");
 			article.addClass("event-listing");
-			article.append("<p><h4>"+ title + "</h4></p>");
+			article.append("<h4><strong>"+ title + "</strong></h4>");
 			// article.append("<p>" + description + "</p>");
 			article.append("<p>Start Date: " + startDate + " " + startTime + "<br>End Date: " + endDate + " " + endTime + "</p>");
 			article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
