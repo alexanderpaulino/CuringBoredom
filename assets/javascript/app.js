@@ -75,6 +75,7 @@ function restaurantAJAXonLoad() {
 	  var lat = "40.742051";
 	  var lng = "-74.004821";
 
+	 	// var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
 	  // var api = "a46b84ae7de46097b35a230d8d7bfd23"
 	  var api = "a39dc6d6f11e4a9ba81caba88c332778"
 	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api
@@ -143,11 +144,21 @@ function restaurantAJAXEverything() {
       	return false;
       }
 
-      if (results[0].address_components[4].short_name != "US") {
+      if (address = zipcode && results[0].address_components[5].short_name != "US") {
       	createErrorMessage();
+      	console.log(results)
+      	console.log("Not a US location.")
       	return false;
       }
 
+      if (address = $("#cityState").val() && results[0].address_components[4].short_name != "US") {
+      	createErrorMessage();
+      	console.log(results)
+      	console.log("Not a US location.")
+      	return false;
+      }
+
+    // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
     // var api = "a46b84ae7de46097b35a230d8d7bfd23"
     var api = "a39dc6d6f11e4a9ba81caba88c332778"
 	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api+"&sort=rating&order=desc"
@@ -223,8 +234,17 @@ function restaurantAJAX() {
       return false;
       }
 
-      if (results[0].address_components[4].short_name != "US") {
+      if (address = zipcode && results[0].address_components[5].short_name != "US") {
       	createErrorMessage();
+      	console.log(results)
+      	console.log("Not a US location.")
+      	return false;
+      }
+
+      if (address = $("#cityState").val() && results[0].address_components[4].short_name != "US") {
+      	createErrorMessage();
+      	console.log(results)
+      	console.log("Not a US location.")
       	return false;
       }
 
@@ -274,6 +294,7 @@ function restaurantAJAX() {
 
 		  console.log("Cuisine ID: "+cuisineID);
 
+		  // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
       // var api = "a46b84ae7de46097b35a230d8d7bfd23"
       var api = "a39dc6d6f11e4a9ba81caba88c332778"
       var url = "https://developers.zomato.com/api/v2.1/search?start=0&count=15&sort=rating&sort=desc&lat="+lat+"&lon="+lng+"&cuisines="+cuisineID+"&radius=16090&apikey="+api
