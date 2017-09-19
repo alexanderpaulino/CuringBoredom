@@ -25,7 +25,7 @@ function loadRestaurantFilters() {
 	+ "<option class='fast-food'>Fast Food</option> <option class='french'>French</option> <option class='greek'>Greek</option> <option class='dessert'>Ice Cream/Dessert</option>"
 	+ "<option class='indian'>Indian</option> <option class='italian'>Italian</option> <option class='japanese'>Japanese</option> <option class='mexican'>Mexican</option>"
 	+ "<option class='pizza'>Pizza</option> <option class='seafood'>Seafood</option> <option class='spanish'>Spanish</option> <option class='thai'>Thai</option>");
-	$("option").addClass("currentFilterOptions");
+	$("option").addClass("food currentFilterOptions");
 }
 
 
@@ -52,7 +52,7 @@ function loadEventFilters() {
 	+ "<option class='baseball'>Baseball</option> <option class='basketball'>Basketball</option> <option class='football'>Football</option> <option class='golf'>Golf</option>"
 	+ "<option class='horse-racing'>Horse Racing</option> <option class='hockey'>Ice Hockey</option> <option class='nascar'>Nascar</option> <option class='soccer'>Soccer</option>"
 	+ "<option class='tennis'>Tennis</option> </optgroup>");
-	$("option").addClass("currentFilterOptions");
+	$("option").addClass("event currentFilterOptions");
 }
 
 
@@ -65,6 +65,15 @@ function selectFilter() {
 		// if(selectedFilter === "Action/Adventure") {
 				// 
 			// }
+
+		if ($(".filters option:selected").hasClass("food")) {
+		restaurantAJAX();
+		console.log("Running restaurantAJAX");
+		}
+		if ($(".filters option:selected").hasClass("event")) {
+			eventAJAX();
+			console.log("Running eventAJAX");
+		}
 
 	})
 }
@@ -130,13 +139,12 @@ function eventAJAX() {
 	var queryURL = "http://api.eventful.com/json/events/search?";
 
 	var zipCode = $("#zipCode").val().trim();
-	zipCode = "10001";
-	var category = $("#input-category").val();
-	category = "music";
-	$("#input-zipCode").val("");
-	$("#input-category").val("");
+	if (zipCode === "") {
+		zipCode = "10001";
+	}
+	getKeyword();
 
-	var searchURL = queryURL + "app_key=" + api_key + "&location=" + zipCode + "&category=" + category;
+	var searchURL = queryURL + "app_key=" + api_key + "&location=" + zipCode + "&within=25&keywords=" + keywords + "&date=today";
 	console.log(searchURL);
 
 	$.ajax({
@@ -165,11 +173,11 @@ function eventAJAX() {
 			startTime = moment(startTime).format("LT");
 
 			if (title === null) {title = "";}
-			if (description === null) {description = "";}
-			if (description.length > 50) {
-				description = description.split(/\s+/).slice(0,51).join(" ");
-				description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
-			}
+			// if (description === null) {description = "";}
+			// if (description.length > 50) {
+			// 	description = description.split(/\s+/).slice(0,51).join(" ");
+			// 	description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
+			// }
 			if (start === null) {start = "";}
 			if (end === null) {
 				var endDate = "Unknown";
@@ -192,10 +200,11 @@ function eventAJAX() {
 
 			var article = $("<div>");
 			article.addClass("event-listing");
-			article.append("<p><h3><a href=" + link + " target='_blank'>"+ title + "</a>" + "</h3></p>");
-			article.append("<p>" + description + "</p>");
+			article.append("<p><h4>"+ title + "</h4></p>");
+			// article.append("<p>" + description + "</p>");
 			article.append("<p>Start Date: " + startDate + " " + startTime + "<br>End Date: " + endDate + " " + endTime + "</p>");
 			article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
+			article.append("<p><a href=" + link + " target='_blank'>Read More</a></p>");
 			var eventImage = $("<img>").addClass("event-listing-image");
 			eventImage.attr("src", "http://via.placeholder.com/350x150");
 
@@ -203,6 +212,22 @@ function eventAJAX() {
 			$("#eventImage").append(eventImage);
 		}
 	});
+}
+
+function getKeyword() {
+	keywords = $(".filters option:selected").text();
+	if (keywords === "Whatcha interested in? (Show me it all!)") {
+		keywords = "";
+	}
+	if (keywords === "All Entertainment") {
+		keywords = "community";
+	}
+	if (keywords === "All Concerts") {
+		keywords = "music";
+	}
+	if (keywords === "All Sporting Events") {
+		keywords = "sports";
+	}
 }
 
 
@@ -280,8 +305,14 @@ $(document).on("click", ".create-account", function() {
 
 $(document).on("click", ".bored-submit-button", function(event) {
 	event.preventDefault();
-	$(".bored-label").hide();
-	$(".bored-input").hide();
+	if ($(".filters option:selected").hasClass("food")) {
+		restaurantAJAX();
+		console.log("Running restaurantAJAX");
+	}
+	if ($(".filters option:selected").hasClass("event")) {
+		eventAJAX();
+		console.log("Running eventAJAX");
+	}
 });
 
 
