@@ -1,4 +1,3 @@
-
 // Global Variables
 var selectedFilter;
 
@@ -8,7 +7,7 @@ $(document).ready(function () {
 	loadRestaurantFilters(); 
 	restaurantAJAXonLoad();
 	console.log("Default Filters: " + $(".default").text());
-
+	$("#chat").hide();
 });
 
 
@@ -20,14 +19,6 @@ function loadRestaurantFilters() {
 	+ "<option class='indian'>Indian</option> <option class='italian'>Italian</option> <option class='japanese'>Japanese</option> <option class='mexican'>Mexican</option>"
 	+ "<option class='pizza'>Pizza</option> <option class='seafood'>Seafood</option> <option class='spanish'>Spanish</option> <option class='thai'>Thai</option>");
 	$("option").addClass("food currentFilterOptions");
-}
-
-
-function loadMovieFilters() {
-	$("#filterList").html("<option class='all-movies default'>Whatcha wanna see? (No idea!)</option> <option class='action'>Action/Adventure</option> <option class='comedy'>Comedy</option>"
-	+ "<option class='drama'>Drama</option> <option class='horror'>Horror</option> <option class='kids'>Kids/Family</option> <option class='romance'>Romance</option>"
-	+ "<option class='sci-fi'>Sci-Fi</option> <option class='suspense'>Suspense/Thriller</option>");
-	$("option").addClass("currentFilterOptions");
 }
 
 
@@ -50,8 +41,11 @@ function loadEventFilters() {
 }
 
 function createErrorMessage() {
-		console.log("Error message created")
     $(".error-message").html("Please enter a valid US zip code or City and State.");
+}
+
+function createNoEventMessage() {
+    $(".no-event-message").html("No events found. Please enter a different location or select another filter.");
 }
 
 function selectFilter() {
@@ -107,7 +101,7 @@ function restaurantAJAXonLoad() {
 	      var restaurant = $("<div>");
 	      restaurant.addClass("food-listing");
 	      restaurant.append("<h5>"+(i+1)+"</h5>");
-	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu'>View Menu</a><br><a class='my-favorite' href='#'>Add to Favorites <i class='fa fa-heart fa-sm'></i></a>");
+	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.nearby_restaurants[i].restaurant.url+"_blank>Zomato Page</a>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.location.address + "<br>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.cuisines + "<br>");
 	      restaurant.append("Average cost for two: $"+result.nearby_restaurants[i].restaurant.average_cost_for_two+"<br>");
@@ -174,7 +168,7 @@ function restaurantAJAXEverything() {
     // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
     // var api = "a46b84ae7de46097b35a230d8d7bfd23"
     var api = "a39dc6d6f11e4a9ba81caba88c332778"
-	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api+"&sort=rating&order=desc"
+	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api
 
 	  console.log(url)
 
@@ -188,7 +182,7 @@ function restaurantAJAXEverything() {
 	      var restaurant = $("<div>");
 	      restaurant.addClass("food-listing");
 	      restaurant.append("<h5>"+(i+1)+"</h5>");
-	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu'>View Menu</a><br><a class='my-favorite' href='#'>Add to Favorites <i class='fa fa-heart fa-sm'></i></a>");
+	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.nearby_restaurants[i].restaurant.url+"_blank>Zomato Page</a>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.location.address + "<br>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.cuisines + "<br>");
 	      restaurant.append("Average cost for two: $"+result.nearby_restaurants[i].restaurant.average_cost_for_two+"<br>");
@@ -209,6 +203,8 @@ function restaurantAJAXEverything() {
 function restaurantAJAX() { 
 		// Write AJAX restaurant response information to the page
 	  event.preventDefault();
+
+	  $(".no-event-message").html("");
 
 	  $("#eventInfo").empty();
 	  $("#eventImage").empty();
@@ -270,7 +266,7 @@ function restaurantAJAX() {
 		  cuisineID = 25;
 		  } else if (cuisine === "Coffee Shops"){
 		  cuisineID = 161;
-		  } else if (cuisine === "Deli"){
+		  } else if (cuisine === "Delis"){
 		  cuisineID = 192;
 		  } else if (cuisine === "Fast Food"){
 		  cuisineID = 40;
@@ -320,7 +316,7 @@ function restaurantAJAX() {
           var restaurant = $("<div>");
           restaurant.addClass("food-listing");
           restaurant.append("<h5>"+(i+1)+"</h5>");
-          restaurant.append("<h4><strong>"+result.restaurants[i].restaurant.name + "</strong></h4><a class='view-menu'>View Menu</a><br><a class='my-favorite' href='#'>Add to Favorites <i class='fa fa-heart fa-sm'></i></a>");
+          restaurant.append("<h4><strong>"+result.restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.restaurants[i].restaurant.url+"_blank>Zomato Page</a>");
           restaurant.append(result.restaurants[i].restaurant.location.address + "<br>");
           restaurant.append(result.restaurants[i].restaurant.cuisines + "<br>");
           restaurant.append("Average cost for two: $"+result.restaurants[i].restaurant.average_cost_for_two+"<br>");
@@ -337,32 +333,6 @@ function restaurantAJAX() {
     });
   });
 }
-
-
-
-function movieAJAX() {
-	// Write all AJAX response information to the page upon category click
-
-	var movie1 = $("<div><h4>Movie 1</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
-	var movie2 = $("<div><h4>Movie 2</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
-	var movie3 = $("<div><h4>Movie 3</h4><a class='my-favorite' href='#'><i class='fa fa-heart fa-lg'></i></a></div>").addClass("movie-listing");
-		// Write AJAX restaurant images to the page
-	var movieImage1 = $("<img>").addClass("movie-listing-image");
-	movieImage1.attr("src", "http://via.placeholder.com/350x150");
-	var movieImage2 = $("<img>").addClass("movie-listing-image");
-	movieImage2.attr("src", "http://via.placeholder.com/350x150");
-	var movieImage3 = $("<img>").addClass("movie-listing-image");
-	movieImage3.attr("src", "http://via.placeholder.com/350x150");
-
-	$("#eventInfo").append(movie1);
-	$("#eventInfo").append(movie2);
-	$("#eventInfo").append(movie3);
-
-	$("#eventImage").append(movieImage1);
-	$("#eventImage").append(movieImage2);
-	$("#eventImage").append(movieImage3);
-}
-
 
 function eventAJAX() {
 	// Write all AJAX response information to the page upon category click
@@ -390,6 +360,11 @@ function eventAJAX() {
 	}).done(function(response) {
 		// console.log(JSON.parse(response).events);
 		console.log(response);
+		if (response.events === null) {
+			createNoEventMessage();
+		}
+		else {
+			$(".no-event-message").html("");
 		results = response.events.event;
 		for (var i = 0; i < results.length; i++) {
 			var title = results[i].title;
@@ -411,11 +386,6 @@ function eventAJAX() {
 			startTime = moment(startTime).format("LT");
 
 			if (title === null) {title = "";}
-			// if (description === null) {description = "";}
-			// if (description.length > 50) {
-			// 	description = description.split(/\s+/).slice(0,51).join(" ");
-			// 	description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
-			// }
 			if (start === null) {start = "";}
 			if (end === null) {
 				var endDate = "Unknown";
@@ -450,6 +420,7 @@ function eventAJAX() {
 
 			$("#eventInfo").append(article);
 			$("#eventImage").append(eventImage);
+			}
 		}
 	});
 }
@@ -495,12 +466,12 @@ function getKeyword() {
 	}
 }
 
-
 function loadSearchScreen() {
 	loadRestaurantFilters(); 
 	restaurantAJAXonLoad();
 	$(".login").hide();
 	$(".new-account").hide();
+	$("#chat").hide();
 	$(".user-input").show();
 	$("#filterList").show();
 	$(".category-buttons").show();
@@ -510,8 +481,8 @@ function loadSearchScreen() {
 	$(".cat-restaurants").attr("id", "selected");
 }
 
-
-function loadFavoritesScreen() {
+// Create chat room and append it to the screen
+function loadChatScreen() {
 	$(".login").hide();
 	$(".new-account").hide();
 	$(".user-input").hide();
@@ -519,72 +490,109 @@ function loadFavoritesScreen() {
 	$(".category-buttons").hide();
 	$(".bored-label").hide();
 	$(".bored-input").hide();
+	var chatHeading = ($("<h3>The Official Cure My Boredom Chat</h3>"
+										 + "<h5>Discuss events and restaurants you are going to and meet up with new friends!</h5>"));
+	var chatInput   = ($("<input type='text' class='form-control' id='message-input' placeholder='Message'></div></div></div>"
+									   + "<button id='send' class='btn btn-default submit-button'>Send</button>"));
+	$("#chat-heading").html(chatHeading);
+	$("#chat-input").html(chatInput);
 }
 
-
+// Create sign in form and append it to the sceen
 function loadSignInScreen() {
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
 	$(".user-input").hide();
 	$("#filterList").hide();
 	$(".category-buttons").hide();
-	var signInScreen = ($("<h2 class='login-heading'>Login</h2><br><h5 class='create-account'><a href='#'>New User? Create an Account</a></h5>"
+	var signInScreen = ($("<h1 class='login-message'></h1>"
+						+ "<h3 class='login-heading'>Log in or Sign Up</h3><br><h5 class='create-account'>"
+						+ "<button id='continue-as-guest' class='btn btn-default submit-button'>Continue as Guest</button>"
+						+ "<button id='continue' class='btn btn-default submit-button'>Continue</button>"
+						+ "<div class='account-error-message'></div>"
 						+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
 						+ "<input type='text' class='form-control' id='userName' placeholder='First Name'>"
-						+ "<input type='text' class='form-control' id='accountName' placeholder='Account Name'>"
-						+ "<input type='password' class='form-control' id='userPassword' placeholder='Password'>"
-						+ "<button type='submit' class='btn btn-default user-login submit-button'>Submit</button>"
+						+ "<input type='email' class='form-control' id='userEmail' placeholder='Email'>"
+						+ "<input type='password' class='form-control' id='userPassword' placeholder='Password'></div></div></div>"
+						+ "<button id='login' class='btn btn-default submit-button'>Log in</button>"
+						+ "<button id='add-user' class='btn btn-default submit-button'>Sign Up</button>"
+						+ "<button id='logout' class='btn btn-default submit-button'>Log Out</button>"
 						));
 
 	$(signInScreen).addClass("login");
 	$("#eventView").append(signInScreen);
 }
 
-
-function loadCreateAccountScreen() {
-	var createAccountScreen = ($("<h2 class='login-heading'>Create Account</h2><br><h5 class='create-account'><a href='#'>New User? Create an Account</a></h5>"
-							+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
-							+ "<input type='text' class='form-control' id='newUserName' placeholder='First Name'>"
-							+ "<input type='text' class='form-control' id='newAccountName' placeholder='Account Name'>"
-							+ "<input type='password' class='form-control' id='newUserPassword' placeholder='Password'>"
-							+ "<input type='password' class='form-control' id='confirmPassword' placeholder='Confirm Password'>"
-							+ "<input type='email' class='form-control' id='newUserEmail' placeholder='Email'></div></div></div>"
-							+ "<button type='submit' class='btn btn-default add-user submit-button'>Submit</button>"
-							));
-
-	$(createAccountScreen).addClass("new-account");
-	$(".login").hide();
-	$("#eventView").append(createAccountScreen);
+// When the user logs in, display a login message
+function loadLoginMessage() {
+	var loginMessage = $("<div>");
+	loginMessage.html("Hello " + userName);
+	loginMessage.addClass("capitalize-center");
+	$(".login-message").html(loginMessage);
 }
 
-
+// Empty the values of the input fields
+function clearUserInput() {
+   $("#userName").val("");
+   $("#userPassword").val("");
+   $("#userEmail").val("");
+ }
 
 // All on click events
+
+// When the user clicks the search icon in the navbar
 $(document).on("click", ".search", function() {
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
+	$("#chat").hide();
+  $(".user-input").show();
 	$(".sign-in").prop("disabled", false);
 	loadSearchScreen();
 });
 
-$(document).on("click", ".favorites", function() {
+// When the user clicks the chat icon in the navbar
+$(document).on("click", ".chat", function() {
 	$("#eventInfo").empty();
 	$("#eventImage").empty();
 	$(".sign-in").prop("disabled", false);
-	loadFavoritesScreen();
+	$("#chat").show();
+	$("#chat-heading").show();
+	$("#chat-messages").show();
+	loadChatScreen();
+	$("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
 });
 
+// When the user clicks the sign-in icon in the navbar
 $(document).on("click", ".sign-in", function() {
-	$(".sign-in").prop("disabled", true);
-	$(".new-account").hide();
 	loadSignInScreen();
+	$("#chat").hide();
+	$(".search").prop("disabled", true);
+	$(".chat").prop("disabled", true);
+	$(".sign-in").prop("disabled", true);
+	if(userName === " "){
+		$("#logout").hide();
+		$("#continue").hide();
+		} else {
+			$("#add-user").hide();
+   		$("#continue-as-guest").hide();
+   		$("#login").hide();
+   		$("#continue").show();
+		}
 });
 
-$(document).on("click", ".create-account", function() {
-	loadCreateAccountScreen();
-	$(".create-account").hide();
+// When the user clicks Continue as Guest in login screen
+$(document).on("click", "#continue-as-guest", function() {
+    location.reload();
 });
 
+// When the user clicks Continue in login screen
+$(document).on("click", "#continue", function() {
+    location.reload();
+ 		$(".search").prop("disabled", false);
+		$(".chat").prop("disabled", false);
+});
+
+// When the user clicks the submit button to input their zip/city on main screen
 $(document).on("click", ".bored-submit-button", function(event) {
     event.preventDefault();
     var zip = $("#zipCode").val();
@@ -646,100 +654,181 @@ $(document).on("click", ".category", function() {
 		// Write all AJAX response information to the page upon category click
 		eventAJAX();
 	}
+});
 
+// On click event for the send message button in chat
+ $(document).on("click", "#send", function() {
+ 	if(userName === " ") {
+ 		// User must be logged in to utilize chat
+ 		$("#chat-input").append("<p class='chat-error-message'>Please login or create an account to utilize the chatroom.</p>");
+ 	} else if (userName) { 
+		console.log("send button pressed");
+		// If userName is valid, obtain message-input value 
+		var messageInput = $("#message-input").val();
+		var sendMessage = userName + ": " + messageInput;
+		var sentMessages = $("<div>").addClass("sent-messages");
+		console.log("message input " + messageInput);
 
+		if(!messageInput) {
+			// Don't allow user to send a blank message
+		  $("#chat-input").append("<p class='chat-error-message'>Please enter a message.</p>");
+		} else if (messageInput) {
+		// Send valid message-input to Firebase for storage.
+		  database.ref().push({
+		    sentMessages: sendMessage,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP // Getting current time
+		  });
+	  }
+		// Delete text in message-input field after it has been sent. 
+  	$("#message-input").val(" ");
+  }
 });
 
 
+// Initialize Firebase. Firebase used to save user login information as well as enable a chat room feature.
+var config = {
+  apiKey: "AIzaSyAH0p97UUJUHYcSXplmLkCUDPTbTOWituw",
+  authDomain: "curingboredom-d4b4e.firebaseapp.com",
+  databaseURL: "https://curingboredom-d4b4e.firebaseio.com",
+  projectId: "curingboredom-d4b4e",
+  storageBucket: "curingboredom-d4b4e.appspot.com",
+  messagingSenderId: "403783343234"
+};
 
- // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAH0p97UUJUHYcSXplmLkCUDPTbTOWituw",
-    authDomain: "curingboredom-d4b4e.firebaseapp.com",
-    databaseURL: "https://curingboredom-d4b4e.firebaseio.com",
-    projectId: "curingboredom-d4b4e",
-    storageBucket: "curingboredom-d4b4e.appspot.com",
-    messagingSenderId: "403783343234"
-  };
+firebase.initializeApp(config);
 
-  firebase.initializeApp(config);
-
-   var dataRef = firebase.database();
-
-   var newName = "";
-   var newAccountName = "";
-   var newPassword = "";
-   var newEmail = "";
-
-   var name = "";
-   var accountName = "";
-   var password = "";
-   var storedUserName = [];
+ // Get elements
+  var database = firebase.database();
+	var userName;
+	var userPassword;
+	var userEmail;
+	var sentMessages;
+	var filter;
+	var li;
+	var a; 
+	var i;
 
 
-   // When user creates a new account
-   $(document).on("click", ".add-user", function(event) { 
-   	event.preventDefault();
+database.ref().on("child_added", function(childSnapshot) {
+	// Display the username in the navbar to let the user know they are logged in while they use the app.
+	if (childSnapshot.child("userName").exists()) { 
+	      console.log("snapshot username " + childSnapshot.val().userName);
+	      userName = childSnapshot.val().userName; 
+	      $(".user-name-message").html(userName).addClass("capitalize");
+	  }
+	// If chat messages are stored in Firebase, append them to the chat-messages div. 
+	if (childSnapshot.child("sentMessages").exists()) { 
+	      console.log("sent message " + childSnapshot.val().sentMessages);
+	      sentMessages = childSnapshot.val().sentMessages;
+	      $("#chat-messages").append("<li class='chat-message'>" + sentMessages + "</li>");
+	      $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
+	  }
+ });
 
-   	newUserName = $("#newUserName").val().trim().toLowerCase();
-    newAccountName = $("#newAccountName").val().trim().toLowerCase();
-   	newUserPassword = $("#newUserPassword").val().trim();
-   	newUserEmail = $("#newUserEmail").val().trim();
+ // When user creates a new account
+ $(document).on("click", "#add-user", e => { 
+ userName = $("#userName").val();
+ userPassword = $("#userPassword").val();
+ userEmail = $("#userEmail").val();
+ // Check e-mail format
+ var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    // Code for the push
-    dataRef.ref().push({
+	  $(".account-error-message").html("");
 
-    newName: newUserName,
-    newAccount: newAccountName,
-    newPassword: newUserPassword,
-    newEmail: newUserEmail,
+	  if ((userEmail.match(re) !== null) && (userPassword) && (userName)) {
+	  	console.log(userEmail);
+ 			// Create user account in Firebase through userEmail, userPassword Firebase authentication.
+			var promise = firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword);
+			promise.catch(e => console.log(e.code));
+			$(".account-error-message").show();
+			promise.catch(e => $(".account-error-message").html(e.message));
+
+	  } else if ((!userEmail) || (!userName) || (!userPassword)) {
+	   	$(".account-error-message").html("Please enter a username, email and password.");
+
+	  } else if (userEmail.match(re) === null) {
+	  	$(".account-error-message").html("Please enter a valid email.");
+	  }
+});
+
+// When user logs in, get and check input fields. Utilize Firebase email/password authentication.
+$(document).on("click", "#login", e => { 
+userName = $("#userName").val();
+userPassword = $("#userPassword").val();
+userEmail = $("#userEmail").val();
+console.log("username: " + userName);
+
+if ((userName) && (userEmail)) { 
+var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
+
+	promise.catch(e => console.log(e.code));
+	$(".account-error-message").show();
+	promise.catch(e => $(".account-error-message").html(e.message));
+
+	} else if ((userName) && (userEmail) && (userPassword)) {
+	loadLoginMessage();
+		database.ref().push({
+    	userName: userName
     });
+	} else if ((!userName) && (!userPassword) && (!userEmail)) {
+	$(".account-error-message").html("Please enter your username, email and password.");
+	} else if ((!userName) && (!userPassword)) {
+	$(".account-error-message").html("Please enter your username and password.");
+	} else if (!userName) {
+	$(".account-error-message").html("Please enter your username.");
+	} else if ((!userPassword) && (!userEmail)) {
+	var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
+	promise.catch(e => console.log(e.code));
+	$(".account-error-message").show();
+	$(".account-error-message").html("Invalid email and password. Please enter your correct credentials.");
+	} else if (!userPassword) {
+	var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
+	promise.catch(e => console.log(e.code));
+	$(".account-error-message").show();
+	$(".account-error-message").html("Password invalid. Please enter a correct password.");
+	} else if (!userEmail) {
+	var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
+ 	promise.catch(e => console.log(e.code));
+	$(".account-error-message").show();
+	$(".account-error-message").html("Invalid email. Please enter a correct email.");
+	}
+});
 
-	clearNewUserInput();
-
-   });
-
-
-   // When user logs in
-
-   $(document).on("click", ".user-login", function(event) { 
-   	event.preventDefault();
-
-   	name = $("#userName").val().trim().toLowerCase();
-    accountName = $("#accountName").val().trim().toLowerCase();
-   	password = $("#userPassword").val().trim();
+// When user logs out
+$(document).on("click", "#logout", e => {
+  userName = " ";
+	    database.ref().push({
+			userName: userName
+		});
+ 	firebase.auth().signOut();
+  $(".user-name-message").removeClass();
+  location.reload();
+  $("#logout").hide();
+});
 
 
-   	dataRef.ref().on("child_added", function(childSnapshot) {
-   		console.log(childSnapshot.val());
-   		storedUserName.push(childSnapshot.val());
-
-   	// 	if(childSnapshot.child("newName").exists()) { 
-
-    //     if(storedUserName.newName === name) {
-    //     	alert("user exists");
-    //     } else {
-    //     	alert("create a new account");
-    //     }
-
-    //     console.log(storedUserName);
-    //     console.log(storedUserName.newName);
-
-
-    // }
+// Add real-time authentication to know when the user logs in and logs out.
+firebase.auth().onAuthStateChanged(firebaseUser => {
+	if(firebaseUser) {
+		console.log(firebaseUser);
+		authdata = firebaseUser;
+	  console.log("user logged in");
+	  loadLoginMessage();
+	  clearUserInput();
+	  $(".account-error-message").hide();
+		$("#logout").show();
+		$("#add-user").hide();
+		$("#continue").show();
+		$("#continue-as-guest").hide();
+		$("#login").hide();
+    database.ref().push({
+		userName: userName
 	});
 
-
-   });
-
-
-
-  // Empty the values of the input fields
-  function clearNewUserInput() {
-    $("#newUserName").val("");
-    $("#newAccountName").val("");
-    $("#newUserPassword").val("");
-    $("#confirmPassword").val("");
-    $("#newUserEmail").val("");
-  }
-
+	} else {
+		console.log("not logged in");
+	  authdata = null;
+	  userName = " ";
+		$("#logout").hide();
+	}
+});
