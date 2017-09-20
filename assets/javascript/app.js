@@ -46,7 +46,7 @@ function createErrorMessage() {
 }
 
 function createNoEventMessage() {
-	$(".no-event-message").html("The Zomato server did not return any results. Please try again later or enter a different location above.");	
+	$(".no-event-message").html("The server did not return any results. Please try again later or enter a different location above.");	
 }
 
 function selectFilter() {
@@ -116,7 +116,7 @@ function restaurantAJAXonLoad() {
 	      $("#eventImage").append(restaurantImage);
 	    };
 	}).fail(function(err) {
-	  throw err;
+	  createNoEventMessage();
 	});
 }
 
@@ -176,7 +176,6 @@ function restaurantAJAXEverything() {
 
 	  $.ajax({
 	  url: url,
-	  error: createNoEventMessage(),
 	  method: 'GET',
 	  }).done(function(result) {
 	  console.log(result);
@@ -205,7 +204,7 @@ function restaurantAJAXEverything() {
 	      $("#eventImage").append(restaurantImage);
 	    };
 		}).fail(function(err) {
-	  	throw err;
+	  	createNoEventMessage();
 		});
 	});
 }
@@ -321,6 +320,9 @@ function restaurantAJAX() {
       method: 'GET',
       }).done(function(result) {
       console.log(result);
+      if (result.status === "404") {
+      	createNoEventMessage();
+      }
       $(".error-message").html("")
       $(".no-event-message").html("");
         for (var i = 0; i < 10; i++) {
@@ -344,7 +346,7 @@ function restaurantAJAX() {
 	      	$("#eventImage").append(restaurantImage);
         };
     }).fail(function(err) {
-      throw err;
+      createNoEventMessage();
     });
   });
 }
