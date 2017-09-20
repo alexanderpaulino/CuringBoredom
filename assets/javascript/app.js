@@ -101,7 +101,7 @@ function restaurantAJAXonLoad() {
 	      var restaurant = $("<div>");
 	      restaurant.addClass("food-listing");
 	      restaurant.append("<h5>"+(i+1)+"</h5>");
-	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.nearby_restaurants[i].restaurant.url+"_blank>Zomato Page</a>");
+	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.nearby_restaurants[i].restaurant.url+" target=_blank>Zomato Page</a>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.location.address + "<br>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.cuisines + "<br>");
 	      restaurant.append("Average cost for two: $"+result.nearby_restaurants[i].restaurant.average_cost_for_two+"<br>");
@@ -177,12 +177,16 @@ function restaurantAJAXEverything() {
 	  method: 'GET',
 	  }).done(function(result) {
 	  console.log(result);
+	  if (result.status === "Not Found") {
+	  	console.log("404 UP");
+      	$(".no-event-message").html("The Zomato server could not be reached. Please try again later.")
+      	};
 	    for (var i = 0; i < result.nearby_restaurants.length; i++) {
 	    	$(".error-message").html("")
 	      var restaurant = $("<div>");
 	      restaurant.addClass("food-listing");
 	      restaurant.append("<h5>"+(i+1)+"</h5>");
-	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.nearby_restaurants[i].restaurant.url+"_blank>Zomato Page</a>");
+	      restaurant.append("<h4><strong>"+result.nearby_restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.nearby_restaurants[i].restaurant.url+" target=_blank>Zomato Page</a>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.location.address + "<br>");
 	      restaurant.append(result.nearby_restaurants[i].restaurant.cuisines + "<br>");
 	      restaurant.append("Average cost for two: $"+result.nearby_restaurants[i].restaurant.average_cost_for_two+"<br>");
@@ -192,6 +196,9 @@ function restaurantAJAXEverything() {
 
 	      var restaurantImage = $("<img>").addClass("food-listing-image");
 	      restaurantImage.attr("src", "assets/images/everything.jpg");
+	      cuisineImage = result.nearby_restaurants[i].restaurant.cuisines.split(",");
+	      console.log(cuisineImage[0])
+	     	restaurantImage.attr("src", "assets/images/cuisines/"+cuisineImage[0]+".jpg");
 	      $("#eventImage").append(restaurantImage);
 	    };
 		}).fail(function(err) {
@@ -274,7 +281,7 @@ function restaurantAJAX() {
 		  cuisineID = 45;
 		  } else if (cuisine === "Greek"){
 		  cuisineID = 156;
-		  } else if (cuisine === "Ice Cream"){
+		  } else if (cuisine === "Ice Cream/Dessert"){
 		  cuisineID = 233;
 		  } else if (cuisine === "Indian"){
 		  cuisineID = 148;
@@ -292,7 +299,9 @@ function restaurantAJAX() {
 		  cuisineID = 89;
 		  } else if (cuisine === "Thai"){
 		  cuisineID = 95;
-		  } else {
+		  } else if (cuisine === "Dessert"){
+		  cuisineID = 100;
+		  }else {
 		  	restaurantAJAXEverything();
 		  	return false;
 		  }
@@ -302,7 +311,7 @@ function restaurantAJAX() {
 		  // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
       // var api = "a46b84ae7de46097b35a230d8d7bfd23"
       var api = "a39dc6d6f11e4a9ba81caba88c332778"
-      var url = "https://developers.zomato.com/api/v2.1/search?start=0&count=15&sort=rating&sort=desc&lat="+lat+"&lon="+lng+"&cuisines="+cuisineID+"&radius=16090&apikey="+api
+      var url = "https://developers.zomato.com/api/v2.1/search?start=0&count=10&sort=rating&sort=desc&lat="+lat+"&lon="+lng+"&cuisines="+cuisineID+"&radius=16090&apikey="+api
 
       console.log(url)
 
@@ -312,11 +321,11 @@ function restaurantAJAX() {
       }).done(function(result) {
       console.log(result);
       $(".error-message").html("")
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < 10; i++) {
           var restaurant = $("<div>");
           restaurant.addClass("food-listing");
           restaurant.append("<h5>"+(i+1)+"</h5>");
-          restaurant.append("<h4><strong>"+result.restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.restaurants[i].restaurant.url+"_blank>Zomato Page</a>");
+          restaurant.append("<h4><strong>"+result.restaurants[i].restaurant.name + "</strong></h4><a class='view-menu' href="+result.restaurants[i].restaurant.url+" target=_blank>Zomato Page</a>");
           restaurant.append(result.restaurants[i].restaurant.location.address + "<br>");
           restaurant.append(result.restaurants[i].restaurant.cuisines + "<br>");
           restaurant.append("Average cost for two: $"+result.restaurants[i].restaurant.average_cost_for_two+"<br>");
@@ -350,7 +359,7 @@ function eventAJAX() {
 
 	getKeyword();
 
-	var searchURL = queryURL + "app_key=" + api_key + "&location=" + address + "&within=15&keywords=" + keywords + "&date=today";
+	var searchURL = queryURL + "app_key=" + api_key + "&location=" + address + "&within=10&keywords=" + keywords + "&date=today";
 	console.log(searchURL);
 
 	$.ajax({
