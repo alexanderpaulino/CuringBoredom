@@ -1,169 +1,5 @@
 /*********** Global Styles ***********/
 body {
-<<<<<<< HEAD
-	background-color: #f4f3f2;
-}
-
-#selected {
-	border-bottom: 3px solid #d36826;
-	color: #d36826;
-}
-
-button:focus, button:active {
-	outline: none !important;
-}
-
-a {
-	text-decoration: none;
-	font-family: 'Khula', sans-serif;
-}
-
-.container-fluid {
-	margin: 0 auto;
-}
-
-.label-heading {
-	color: #d36826;
-	font-size: 16px;
-	letter-spacing: .09em;
-}
-
-.label {
-	color: #d36826;
-	font-size: 13.5px;
-	float: left;
-}
-
-.set-width, #filterList {
-	width: 60%;
-	margin: 0 auto;
-}
-
-.submit-button {
-	background-color: #d36826;
-	color: #fff;
-}
-
-.submit-button:hover {
-	background-color: #fff;
-	color: #d36826;
-}
-
-
-/*********** Navbar ***********/
-.navbar {
-	margin-bottom: -10px;
-	text-align: center;
-	background-color: #d3e2ea;
-}
-
-.navbar-nav li {
-	padding: 0 30px 0 30px
-}
-
-.navbar.center .navbar-inner {
-	text-align: center;
-}
-
-.navbar.center, .navbar-inner, .nav {
-	display: inline-block;
-	float: none;
-}
-
-
-/*********** Main Styling ***********/
-
-.wrapper {
-	background-color: #f4f3f2;
-	padding-top: 20px;
-	max-width: 1200px;
-	overflow: hidden;
-	height: 100%;
-	margin: 0 auto;
-	font-family: 'Khula', sans-serif;
-}
-
-.form-control {
-	margin: 0 auto;
-}
-
-.user-input {
-	background-color: #fff;
-	padding: 20px;
-	margin-top: 70px;
-	border-radius: 10px;
-}
-
-.bored-submit-button {
-	display: inline-block;
-	margin-top: 20px;
-}
-
-.categories {
-	padding-top: 10px;
-}
-
-.category-buttons {
-	margin: 0 auto;
-	text-align: center;
-	width: 100%;
-}
-
-.category {	
-	padding: 10px 30px 10px 30px;
-	font-size: 16px;
-	background-color: #f4f3f2;
-	border: none;
-	color: #ed9863;
-}
-
-.cat-restaurants {
-	margin-right: 5%;
-}
-
-.cat-movies {
-	margin-right: 5%;
-}
-
-#filterSettings {
-	padding-top: 30px;
-}
-
-#filterList {
-	margin-bottom: 30px;
-	width: 35%;
-	height: 40px;
-	cursor: pointer;
-}
-
-#eventView {
-	padding-bottom: 80px;
-	width: 85%;
-	margin: 0 auto;
-}
-
-.food-listing h5, .movie-listing h5, .event-listing h5 {
-	display: none;
-}
-
-.food-listing h4, .movie-listing h4, .event-listing h4 {
-	text-transform: uppercase;
-	letter-spacing: .09em;
-	color: #fff;
-	margin-bottom: -15px;
-}
-
-.food-listing, .movie-listing, .event-listing {
-	height: 240px;
-	color: #000;
-	border-radius: 10px 0px 0px 10px;
-	padding: 20px;
-	padding-right: 20px;
-	margin-top: 20px;
-	font-size: 16px;
-	line-height: 1.5;
-	width: 107%;
-=======
   background-color: #f4f3f2;
 }
 
@@ -340,20 +176,10 @@ input::-webkit-inner-spin-button {
   font-size: 16px;
   line-height: 1.5;
   width: 107%;
->>>>>>> ZomatoJavascript
 }
 
 
 .my-favorite, .view-menu {
-<<<<<<< HEAD
-	color: #f7d54f;
-	font-size: 14px;
-	line-height: 1.5;
-	cursor: pointer;
-	display: block;
-	float: right;
-	padding-right: 20px;
-=======
   color: #f7d54f;
   font-size: 14px;
   line-height: 1.5;
@@ -361,24 +187,10 @@ input::-webkit-inner-spin-button {
   display: block;
   margin-top: 20px;
   padding-right: 20px;
->>>>>>> ZomatoJavascript
 }
 
 
 .my-favorite:hover, .view-menu:hover {
-<<<<<<< HEAD
-	text-decoration: none;
-	color: #fff;
-}
-
-
-.food-listing-image, .movie-listing-image, .event-listing-image {
-	height: 260px;
-	width: 100%;
-	padding-top: 20px;
-	border-top-right-radius: 2em;
-	border-bottom-right-radius: 1em;
-=======
   text-decoration: none;
   color: #fff;
 }
@@ -390,23 +202,10 @@ input::-webkit-inner-spin-button {
   padding-top: 20px;
   border-top-right-radius: 2em;
   border-bottom-right-radius: 1em;
->>>>>>> ZomatoJavascript
 }
 
 
 .food-listing {
-<<<<<<< HEAD
-	background-color: #4b9ac1;
-	color: #cfeaf7;
-}
-
-.movie-listing {
-	background-color: #36a586;
-}
-
-.event-listing {
-	background-color: #c44444;
-=======
   background-color: #4b9ac1;
   color: #cfeaf7;
 }
@@ -423,196 +222,11 @@ input::-webkit-inner-spin-button {
 .event-listing a:hover {
   color: #fff;
   text-decoration: none;
->>>>>>> ZomatoJavascript
 }
 
 
 /*********** Login Form ***********/
 .login-form {
-<<<<<<< HEAD
-	width: 70%;
-	margin: 0 auto;
-}
-
-.login-form input {
-	width: 70%;
-	padding: 25px 10px;
-	margin-top: 20px;
-}
-
-.login-heading {
-	text-align: center;
-	padding-top: 60px;
-}
-
-.create-account {
-	text-align: center;
-}
-
-.create-account a {
-	color: #ed9863;
-	text-decoration: none;
-}
-
-.create-account a:hover {
-	color: #d36826;
-}
-
-.user-login, .add-user {
-	margin: 0 auto;
-	display: block;
-	margin-top: 20px;
-}
-
-/*********** Media Queries ***********/
-
-@media screen and (max-width: 997px) {
-
-	.food-listing, .movie-listing, .event-listing {
-			width: 109%;
-			padding-right: 20px;
-	}
-
-	.city-state {
-		margin-top: 20px;
-	}
-
-	.bored-submit-button {
-		margin-top: 20px;
-	}
-
-	#filterList {
-		width: 48%;
-	}
-
-	#eventView {
-		width: 100%;
-	}
-
-}
-
-@media screen and (max-width: 767px) {
-
-	.food-listing, .movie-listing, .event-listing {
-			height: 260px;
-	}
-
-	.food-listing-image, .movie-listing-image, .event-listing-image {
-			height: 280px;
-	}
-
-	.my-favorite, .view-menu {
-		width: 100%;
-	}
-
-	.view-menu {
-		margin-top: 23px;
-	}
-
-	.my-favorite {
-		padding-bottom: 5px;
-	}
-
-}
-
-
-@media screen and (min-width: 481px) {
-	.navbar-bottom {
-		display: none;
-	}
-	.navbar-top li {
-		display: inline-block;
-	}
-
-	.category-buttons {
-		padding-top: 40px;
-	}
-}
-
-
-
-@media screen and (max-width: 668px) {
-
-	.food-listing, .movie-listing, .event-listing {
-		margin-left: 0;
-		margin-right: 0;
-		font-size: 15px;
-		width: 100%;
-		border-radius: 10px;
-	}
-
-	#eventInfo {
-		margin-left: 0px;
-		width: 100%;
-	}
-
-	#eventImage {
-		display: none;
-	}
-
-}
-
-
-
-@media screen and (max-width: 500px) {
-
-	.category {	
-		padding: 10px 18px 10px 18px;
-	}
-	.cat-restaurants {
-		margin-right: 0;
-	}
-
-	.cat-movies {
-		margin-right: 0;
-	}
-
-	.set-width {
-		width: 85%;
-	}
-
-}
-
-@media screen and (max-width: 480px) {
-
-	#eventView {
-		width: 100%;
-		margin: 0 auto;
-	}
-
-	.user-input {
-		margin-top: 5px;
-	}
-
-	.food-listing, .movie-listing, .event-listing {
-		padding-left: 15px;
-		padding-right: 0;
-		width: 100%;
-	} 
-
-	.navbar-top {
-		display: none;
-	}
-
-	.login-heading {
-		padding-top: 0;
-	}
-
-	.category-buttons {
-		padding-top: 10px;
-	}
-
-	.navbar-bottom li {
-		display: inline-block;
-		padding: 0 15px 0 15px
-	}
-
-	#filterList {
-		width: 70%;
-	}
-
-}
-=======
   max-width: 70%;
   margin: 0 auto;
 }
@@ -977,4 +591,3 @@ input::-webkit-inner-spin-button {
   }
 
 }
->>>>>>> ZomatoJavascript
