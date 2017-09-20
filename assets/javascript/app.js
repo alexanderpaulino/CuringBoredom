@@ -73,7 +73,7 @@ function selectFilter() {
 selectFilter();
 
 
-function restaurantAJAXonLoad() { 
+function restaurantAJAXonLoad() {
 		// Write AJAX restaurant response information to the page
 	  var cuisine = selectedFilter;
 	  var cuisineID = ""
@@ -496,6 +496,7 @@ function loadChatScreen() {
 										 + "<h5>Discuss events and restaurants you are going to and meet up with new friends!</h5>"));
 	var chatInput   = ($("<input type='text' class='form-control' id='message-input' placeholder='Message'></div></div></div>"
 									   + "<button id='send' class='btn btn-default submit-button'>Send</button>"));
+
 	$("#chat-heading").html(chatHeading);
 	$("#chat-input").html(chatInput);
 }
@@ -578,8 +579,12 @@ $(document).on("click", ".sign-in", function() {
 		} else {
 			$("#add-user").hide();
    		$("#continue-as-guest").hide();
-   		$("#login").hide();
-   		$("#continue").show();
+   			$("#login").hide();
+
+   		  $(".login-form").hide();
+   		  $(".login-heading").hide();
+
+   			$("#continue").show();
 		}
 });
 
@@ -677,6 +682,8 @@ $(document).on("click", ".category", function() {
 });
 
 
+
+
  // Initialize Firebase. Firebase used to save user login information as well as enable a chat room feature.
   var config = {
     apiKey: "AIzaSyAH0p97UUJUHYcSXplmLkCUDPTbTOWituw",
@@ -697,8 +704,29 @@ $(document).on("click", ".category", function() {
 		var sentMessages;
 		var filter;
 		var li;
-		var a; 
+		var input;
+		var a;
 		var i;
+
+		// Allow user to filter through chat results
+		function filterChat() {
+		  chat = $("#chat-messages").text();
+		  filter = sentMessages;
+		 	input = $("#myInput");
+		  filter = input.val().toUpperCase();
+			li = $("li");
+
+			// Loop through all list items, and hide those who don't match the search query
+			for (i = 0; i < li.length; i++) {
+				console.log("all messages" + li);
+				a = li[i];
+				if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					  li[i].style.display = "";
+				} else {
+					li[i].style.display = "none";
+				}
+			}
+		}
 
 
 	database.ref().on("child_added", function(childSnapshot) {
@@ -712,10 +740,10 @@ $(document).on("click", ".category", function() {
 		if (childSnapshot.child("sentMessages").exists()) { 
 		      console.log("sent message " + childSnapshot.val().sentMessages);
 		      sentMessages = childSnapshot.val().sentMessages;
-		      $("#chat-messages").append("<li class='chat-message'>" + sentMessages + "</li>");
+		      $("#chat-messages").append("<li class='chat-message'><a>" + sentMessages + "</a></li>");
 		      $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
+		      $("#chat-filter").html("<div class='form-group'><input type='text' class='form-control' id='myInput' onkeyup='filterChat()' placeholder='Filter chat by keyword..'></div>");
 		  }
-
 	 });
 
 
@@ -811,6 +839,9 @@ $(document).on("click", ".category", function() {
    		  console.log("user logged in");
    		  loadLoginMessage();
    		  clearUserInput();
+
+   		  $(".login-form").hide();
+   		  $(".login-heading").hide();
    		  $(".account-error-message").hide();
    			$("#logout").show();
    			$("#add-user").hide();
