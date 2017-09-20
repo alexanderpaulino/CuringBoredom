@@ -562,6 +562,7 @@ $(document).on("click", ".chat", function() {
 	$("#chat-heading").show();
 	$("#chat-messages").show();
 	loadChatScreen();
+	$("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
 });
 
 // When the user clicks the sign-in icon in the navbar
@@ -694,6 +695,10 @@ $(document).on("click", ".category", function() {
 		var userPassword;
 		var userEmail;
 		var sentMessages;
+		var filter;
+		var li;
+		var a; 
+		var i;
 
 
 	database.ref().on("child_added", function(childSnapshot) {
@@ -708,7 +713,9 @@ $(document).on("click", ".category", function() {
 		      console.log("sent message " + childSnapshot.val().sentMessages);
 		      sentMessages = childSnapshot.val().sentMessages;
 		      $("#chat-messages").append("<li>" + sentMessages + "<br></li>");
+		      $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
 		  }
+
 	 });
 
 
