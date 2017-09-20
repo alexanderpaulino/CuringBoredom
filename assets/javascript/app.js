@@ -141,9 +141,6 @@ function eventAJAX() {
 	var address = $("#zipCode").val().trim();
 	if (address === "") {
 		address = $("#cityState").val().trim();
-		if (address === "") {
-			console.log("THROW ERROR");
-		}
 	}
 
 	getKeyword();
@@ -153,69 +150,76 @@ function eventAJAX() {
 
 	$.ajax({
 		url: searchURL,
-		method: "GET",
+		dataType: "jsonp",
+		method: "POST",
 	}).done(function(response) {
-		console.log(JSON.parse(response).events);
-		results = JSON.parse(response).events.event;
-		for (var i = 0; i < results.length; i++) {
-			var title = results[i].title;
-			var description = results[i].description;
-			var start = results[i].start_time;
-			var end = results[i].stop_time;
-			var address = results[i].venue_address;
-			var city = results[i].city_name;
-			var state = results[i].region_name;
-			var code = results[i].postal_code;
-			var link = results[i].url;
+		// console.log(JSON.parse(response).events);
+		console.log(response);
+		if (response.events === null) {
+			$("#no-event-message").append("<h4>No Event Found</h4>");
+		}
+		else {
+			$("#no-event-message").empty();
+			results = response.events.event;
+			for (var i = 0; i < results.length; i++) {
+				var title = results[i].title;
+				// var description = results[i].description;
+				var start = results[i].start_time;
+				var end = results[i].stop_time;
+				var address = results[i].venue_address;
+				var city = results[i].city_name;
+				var state = results[i].region_name;
+				var code = results[i].postal_code;
+				var link = results[i].url;
 
-			var startDate = start.slice(0,11);
-			startDate = moment(startDate, "YYYY/MM/DD");
-			startDate = moment(startDate).format("ll");
-			
-			var startTime = start.slice(11,21);
-			startTime = moment(startTime, "HH:mm:ss");
-			startTime = moment(startTime).format("LT");
+				var startDate = start.slice(0,11);
+				startDate = moment(startDate, "YYYY/MM/DD");
+				startDate = moment(startDate).format("ll");
+				
+				var startTime = start.slice(11,21);
+				startTime = moment(startTime, "HH:mm:ss");
+				startTime = moment(startTime).format("LT");
 
-			if (title === null) {title = "";}
-			// if (description === null) {description = "";}
-			// if (description.length > 50) {
-			// 	description = description.split(/\s+/).slice(0,51).join(" ");
-			// 	description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
-			// }
-			if (start === null) {start = "";}
-			if (end === null) {
-				var endDate = "Unknown";
-				var endTime = "";
+				if (title === null) {title = "";}
+				// if (description === null) {description = "";}
+				// if (description.length > 50) {
+				// 	description = description.split(/\s+/).slice(0,51).join(" ");
+				// 	description += "... <a href=" + link + " target='_blank'>(Read More)</a>";
+				// }
+				if (start === null) {start = "";}
+				if (end === null) {
+					var endDate = "Unknown";
+					var endTime = "";
+				}
+				else {
+					var endDate = end.slice(0,11);
+					endDate = moment(endDate, "YYYY/MM/DD");
+					endDate = moment(endDate).format("ll");
+
+					var endTime = end.slice(11,21);
+					endTime = moment(endTime, "HH:mm:ss");
+					endTime = moment(endTime).format("LT");
+				}
+				if (address === null) {address = "";}
+				if (city === null) {city = "";}
+				if (state === null) {state = "";}
+				if (code === null) {code = "";}
+				if (link === null) {link = "";}
+
+				var article = $("<div>");
+				article.addClass("event-listing");
+				article.append("<h4><strong>"+ title + "</strong></h4>");
+				// article.append("<p>" + description + "</p>");
+				article.append("<p>Start Date: " + startDate + " " + startTime + "<br>End Date: " + endDate + " " + endTime + "</p>");
+				article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
+				article.append("<p><a href=" + link + " target='_blank'>Read More</a></p>");
+				var eventImage = $("<img>").addClass("event-listing-image");
+				// eventImage.attr("src", "http://via.placeholder.com/350x150");
+				eventImage.attr("src", "assets/images/" + keywords + ".jpg");
+
+				$("#eventInfo").append(article);
+				$("#eventImage").append(eventImage);
 			}
-			else {
-				var endDate = end.slice(0,11);
-				endDate = moment(endDate, "YYYY/MM/DD");
-				endDate = moment(endDate).format("ll");
-
-				var endTime = end.slice(11,21);
-				endTime = moment(endTime, "HH:mm:ss");
-				endTime = moment(endTime).format("LT");
-			}
-			if (address === null) {address = "";}
-			if (city === null) {city = "";}
-			if (state === null) {state = "";}
-			if (code === null) {code = "";}
-			if (link === null) {link = "";}
-
-			var article = $("<div>");
-			article.addClass("event-listing");
-			article.append("<h4><strong>"+ title + "</strong></h4>");
-			// article.append("<p>" + description + "</p>");
-			article.append("<p>Start Date: " + startDate + " " + startTime + "<br>End Date: " + endDate + " " + endTime + "</p>");
-			article.append("<p>" + address + "<br>" + city + ", " + state + " " + code + "</p>");
-			article.append("<p><a href=" + link + " target='_blank'>Read More</a></p>");
-			var eventImage = $("<img>").addClass("event-listing-image");
-			// eventImage.attr("src", "http://via.placeholder.com/350x150");
-			eventImage.attr("src", "assets/images/" + keywords + ".jpg");
-			
-
-			$("#eventInfo").append(article);
-			$("#eventImage").append(eventImage);
 		}
 	});
 }
