@@ -45,6 +45,10 @@ function createErrorMessage() {
     $(".error-message").html("Please enter a valid US zip code or City and State.");
 }
 
+function createNoEventMessage() {
+	$(".no-event-message").html("The Zomato server did not return any results. Please try again later or enter a different location above.");	
+}
+
 function selectFilter() {
 	$("select.filters").change(function () {
 		selectedFilter = $(".filters option:selected").text();
@@ -68,6 +72,7 @@ function selectFilter() {
 					console.log("Running eventAJAX");
 				}
         $(".error-message").html("");
+        $(".no-event-message").html("");
     }
 	});
 }
@@ -153,14 +158,14 @@ function restaurantAJAXEverything() {
 
       console.log(results);
 
-	    for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
-	        if (results[0].address_components[i].short_name != "US") {
-	        console.log(results[0].address_components[i].short_name)
-	      	console.log("Not a US location.");
-	      	createErrorMessage();
-	      	return false;
-	        }
-	    }
+	    // for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
+	    //     if (results[0].address_components[i].short_name != "US") {
+	    //     console.log(results[0].address_components[i].short_name)
+	    //   	console.log("Not a US location.");
+	    //   	createErrorMessage();
+	    //   	return false;
+	    //     }
+	    // }
 
     // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
     var api = "a46b84ae7de46097b35a230d8d7bfd23"
@@ -171,15 +176,13 @@ function restaurantAJAXEverything() {
 
 	  $.ajax({
 	  url: url,
+	  error: createNoEventMessage(),
 	  method: 'GET',
 	  }).done(function(result) {
 	  console.log(result);
-	  if (result.status === "Not Found") {
-	  	console.log("404 UP");
-      	$(".no-event-message").html("The Zomato server could not be reached. Please try again later.")
-      	};
 	    for (var i = 0; i < result.nearby_restaurants.length; i++) {
 	    	$(".error-message").html("")
+	    	$(".no-event-message").html("");
 	      var restaurant = $("<div>");
 	      restaurant.addClass("food-listing");
 	      restaurant.append("<h5>"+(i+1)+"</h5>");
@@ -195,6 +198,9 @@ function restaurantAJAXEverything() {
 	      restaurantImage.attr("src", "assets/images/everything.jpg");
 	      cuisineImage = result.nearby_restaurants[i].restaurant.cuisines.split(",");
 	      console.log(cuisineImage[0])
+	      if (cuisineImage[0] === "") {
+	      cuisineImage[0] = "everything";	
+	      }
 	     	restaurantImage.attr("src", "assets/images/cuisines/"+cuisineImage[0]+".jpg");
 	      $("#eventImage").append(restaurantImage);
 	    };
@@ -248,14 +254,14 @@ function restaurantAJAX() {
 
       console.log(results);
 
-      for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
-	        if (results[0].address_components[i].short_name != "US") {
-	        console.log(results[0].address_components[i].short_name)
-	      	console.log("Not a US location.");
-	      	createErrorMessage();
-	      	return false;
-	        }
-	    }
+     //  for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
+	    //     if (results[0].address_components[i].short_name != "US") {
+	    //     console.log(results[0].address_components[i].short_name)
+	    //   	console.log("Not a US location.");
+	    //   	createErrorMessage();
+	    //   	return false;
+	    //     }
+	    // }
 
       console.log("Latitude: "+lat);
       console.log("Longitude: "+lng);
@@ -296,9 +302,7 @@ function restaurantAJAX() {
 		  cuisineID = 89;
 		  } else if (cuisine === "Thai"){
 		  cuisineID = 95;
-		  } else if (cuisine === "Dessert"){
-		  cuisineID = 100;
-		  }else {
+		  } else {
 		  	restaurantAJAXEverything();
 		  	return false;
 		  }
@@ -318,6 +322,7 @@ function restaurantAJAX() {
       }).done(function(result) {
       console.log(result);
       $(".error-message").html("")
+      $(".no-event-message").html("");
         for (var i = 0; i < 10; i++) {
           var restaurant = $("<div>");
           restaurant.addClass("food-listing");
@@ -613,8 +618,9 @@ $(document).on("click", ".bored-submit-button", function(event) {
     event.preventDefault();
     var zip = $("#zipCode").val();
     var city = $("#cityState").val();
-    console.log(zip.length);
-    console.log(city.length);
+
+    $(".error-message").html("");
+    $(".no-event-message").html("");
 
     if (zip.length != 5 && $("#cityState").val() === "") {
       createErrorMessage();
@@ -629,6 +635,7 @@ $(document).on("click", ".bored-submit-button", function(event) {
 					console.log("Running eventAJAX");
 				}
         $(".error-message").html("");
+        $(".no-event-message").html("");
     }
 });
 
