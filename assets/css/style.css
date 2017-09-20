@@ -41,12 +41,23 @@ a {
 .submit-button {
 	background-color: #d36826;
 	color: #fff;
+	padding: 8px 12px 8px 12px;
 }
 
 .submit-button:hover {
 	background-color: #fff;
 	color: #d36826;
 }
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 
 
 /*********** Navbar ***********/
@@ -68,6 +79,7 @@ a {
 	display: inline-block;
 	float: none;
 }
+
 
 
 /*********** Main Styling ***********/
@@ -120,10 +132,6 @@ a {
 	margin-right: 5%;
 }
 
-.cat-movies {
-	margin-right: 5%;
-}
-
 #filterSettings {
 	padding-top: 30px;
 }
@@ -141,20 +149,26 @@ a {
 	margin: 0 auto;
 }
 
-.food-listing h5, .movie-listing h5, .event-listing h5 {
+.food-listing h5, .event-listing h5 {
 	display: none;
 }
 
-.food-listing h4, .movie-listing h4, .event-listing h4 {
+.food-listing h4 {
 	text-transform: uppercase;
 	letter-spacing: .09em;
 	color: #fff;
 	margin-bottom: -15px;
 }
 
-.food-listing, .movie-listing, .event-listing {
+.event-listing h4 {
+	text-transform: uppercase;
+	letter-spacing: .09em;
+	color: #fff;
+	margin-bottom: 7px;
+}
+
+.food-listing, .event-listing {
 	height: 240px;
-	color: #000;
 	border-radius: 10px 0px 0px 10px;
 	padding: 20px;
 	padding-right: 20px;
@@ -182,7 +196,7 @@ a {
 }
 
 
-.food-listing-image, .movie-listing-image, .event-listing-image {
+.food-listing-image, .event-listing-image {
 	height: 260px;
 	width: 100%;
 	padding-top: 20px;
@@ -196,18 +210,24 @@ a {
 	color: #cfeaf7;
 }
 
-.movie-listing {
-	background-color: #36a586;
-}
-
 .event-listing {
 	background-color: #c44444;
+	color: #ffdeb5;
+}
+
+.event-listing a {
+	color: #adc3d8;
+}
+
+.event-listing a:hover {
+	color: #fff;
+	text-decoration: none;
 }
 
 
 /*********** Login Form ***********/
 .login-form {
-	width: 70%;
+	max-width: 70%;
 	margin: 0 auto;
 }
 
@@ -220,6 +240,11 @@ a {
 .login-heading {
 	text-align: center;
 	padding-top: 60px;
+	margin-bottom: -20px;
+	margin-top: -10px;
+	color: #d36826;
+	text-transform: uppercase;
+	letter-spacing: .09em;
 }
 
 .create-account {
@@ -235,17 +260,136 @@ a {
 	color: #d36826;
 }
 
-.user-login, .add-user {
+#login, #add-user, #logout {
 	margin: 0 auto;
+	margin: 20px 10px 20px 10px;
+	display: inline-block;
+}
+
+.capitalize-center {
+	text-transform: capitalize;
+	text-align: center;
+	margin-bottom: -20px;
+}
+
+.user-name-message {
+	margin-left: -45px;
+}
+
+.capitalize {
+	text-transform: capitalize;
+	font-size: 18px;
+	margin-top: 13px;
+	color: grey;
+}
+
+.error-message, .account-error-message {
 	display: block;
+	margin-top: 15px;
+	text-align: center;
+	color: red;
+}
+
+
+
+/*********** Chat ***********/
+
+#chat {
+	max-width: 85%;
+	margin: 0 auto;
+}
+
+#send{
 	margin-top: 20px;
+}
+
+#chat-heading {
+	text-align: center;
+}
+
+#chat-heading h3 {
+	text-transform: uppercase;
+	color: #d36826;
+	letter-spacing: .09em;
+}
+
+#chat-heading h5 {
+	font-size: 14px;
+	background-color: #f76767;
+	padding: 10px;
+	max-width: 60%;
+	margin: 0 auto;
+	color: #fff;
+	border-radius: 10px;
+	position: relative;
+	border-radius: .4em;
+}
+
+#chat-heading h5:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 6%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-bottom-color: #f76767;
+	border-top: 0;
+	border-left: 0;
+	margin-left: -10px;
+	margin-top: -12px;
+}
+
+#chat-messages {
+	background-color: #fff;
+	color: #255096;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	padding: 2px 20px 2px 20px;
+	margin: 10px;
+	min-height: 200px;
+	max-height: 90%;
+	overflow-y: scroll;
+}
+
+.chat-error-message {
+	display: block;
+	margin-top: 15px;
+	text-align: left;
+	color: red;
+}
+
+#chat-messages li {
+	background-color: #4b9ac1;
+	margin-top: 10px;
+	list-style-type: none;
+	color: #fff;
+	padding: 8px;
+	width: 65%;
+	position: relative;
+	border-radius: .4em;
+}
+
+#chat-messages li:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #4b9ac1;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -12px;
 }
 
 /*********** Media Queries ***********/
 
 @media screen and (max-width: 997px) {
 
-	.food-listing, .movie-listing, .event-listing {
+	.food-listing, .event-listing {
 			width: 109%;
 			padding-right: 20px;
 	}
@@ -270,11 +414,11 @@ a {
 
 @media screen and (max-width: 767px) {
 
-	.food-listing, .movie-listing, .event-listing {
+	.food-listing, .event-listing {
 			height: 260px;
 	}
 
-	.food-listing-image, .movie-listing-image, .event-listing-image {
+	.food-listing-image, .event-listing-image {
 			height: 280px;
 	}
 
@@ -288,6 +432,10 @@ a {
 
 	.my-favorite {
 		padding-bottom: 5px;
+	}
+
+	#chat-messages li {
+		width: 100%;
 	}
 
 }
@@ -310,7 +458,7 @@ a {
 
 @media screen and (max-width: 668px) {
 
-	.food-listing, .movie-listing, .event-listing {
+	.food-listing, .event-listing {
 		margin-left: 0;
 		margin-right: 0;
 		font-size: 15px;
@@ -327,6 +475,16 @@ a {
 		display: none;
 	}
 
+	.login-form {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	.login-form input {
+		width: 80%;
+		padding: 25px 10px;
+		margin-top: 20px;
+	}
 }
 
 
@@ -348,6 +506,14 @@ a {
 		width: 85%;
 	}
 
+	#chat-heading h3 {
+		font-size: 20px;
+	}
+
+	#chat-heading h5 {
+		display: none;
+	}
+
 }
 
 @media screen and (max-width: 480px) {
@@ -361,7 +527,7 @@ a {
 		margin-top: 5px;
 	}
 
-	.food-listing, .movie-listing, .event-listing {
+	.food-listing, .event-listing {
 		padding-left: 15px;
 		padding-right: 0;
 		width: 100%;
@@ -381,11 +547,36 @@ a {
 
 	.navbar-bottom li {
 		display: inline-block;
-		padding: 0 15px 0 15px
+		padding: 0 25px 0 25px
+	}
+
+	.navbar-bottom a {
+		margin-bottom: 5px;
 	}
 
 	#filterList {
 		width: 70%;
+	}
+
+	.login-form {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.login-form input {
+		width: 100%;
+		padding: 25px 10px;
+		margin-top: 20px;
+	}
+
+	.user-name-message {
+		margin-left: -30px;
+	}
+
+	.capitalize-center {
+		text-transform: capitalize;
+		text-align: center;
+		margin-bottom: 30px;
 	}
 
 }

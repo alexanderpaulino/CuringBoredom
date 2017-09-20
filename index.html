@@ -19,14 +19,13 @@
 </head>
 <body>
 
-<!-- Nicole -->
 <nav class="navbar navbar-default navbar-fixed-top navbar-top">
   <div class="container-fluid">
       <ul class="nav navbar-nav">
      		<li class="search"><a href="#"><i class="fa fa-search fa-lg"></i></a></li>
-        <li class="favorites"><a href="#"><i class="fa fa-heart fa-lg"></i></a></li>
         <li class="chat"><a href="#"><i class="fa fa-comments-o fa-lg"></i></a></li>
         <li class="sign-in"><a href="#"><i class="fa fa-user fa-lg"></i></a></li>
+        <li class="user-name-message"></li>
       </ul>
   </div><!-- /.container-fluid -->
 </nav>
@@ -47,7 +46,7 @@
 		<div class="row bored-input">
 			<div class="col-md-4 text-center zip">
 					<label class="label" for="zip">Zip Code:</label>
-				  <input type="text" class="form-control" id="zipCode" placeholder="10001">
+				  <input type="number" maxlength="5" class="form-control" id="zipCode" placeholder="10001">
 			</div>
 
 			<div class="col-md-6 text-center city-state">
@@ -58,13 +57,13 @@
 			<div class="col-md-2 text-center">
   				<button type="submit" class="btn btn-default bored-submit-button submit-button">Submit</button>
 			</div>
+			<div class="col-md-12 text-center error-message"></div>
 		</div>
 	</div>
 
 		<div class="row category-buttons">
 			<div class="col-md-12 text-center categories">
 				<button class="category cat-restaurants" id="selected">RESTAURANTS</button>
-				<button class="category cat-movies">MOVIES</button>
 				<button class="category cat-events">EVENTS</button>
 			</div>
 		</div> <!-- End Row -->
@@ -77,6 +76,16 @@
 				  </select>
 				</div>
 			</div>
+		</div> <!-- End Row -->
+
+		<div class="row" id="chat">
+				<!-- Chat messages will be dumped here -->
+				<div class="col-xs-12 col-sm-12 col-md-12" id="chat-heading">
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12" id="chat-messages">
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12" id="chat-input">
+				</div>
 		</div> <!-- End Row -->
 
 		<div class="row" id="eventView">
@@ -96,15 +105,16 @@
 	  <div class="container-fluid">
 	      <ul class="nav navbar-nav">
 	     		<li class="search"><a href="#"><i class="fa fa-search fa-lg"></i></a></li>
-	        <li class="favorites"><a href="#"><i class="fa fa-heart fa-lg"></i></a></li>
 	        <li class="chat"><a href="#"><i class="fa fa-comments-o fa-lg"></i></a></li>
 	        <li class="sign-in"><a href="#"><i class="fa fa-user fa-lg"></i></a></li>
+        	<li class="user-name-message"></li>
 	      </ul>
 	  </div><!-- /.container-fluid -->
 	</nav>
 </footer>
 <!-- JavaScript File -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd64Nz6KSC95FW4ZapCkkmyymF4gPcANg" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
 <script src="assets/javascript/app.js"></script>
 
 </body>
