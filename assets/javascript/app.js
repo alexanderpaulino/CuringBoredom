@@ -590,6 +590,8 @@ $(document).on("click", "#continue-as-guest", function() {
 // When the user clicks Continue in login screen
 $(document).on("click", "#continue", function() {
     location.reload();
+ 		$(".search").prop("disabled", false);
+		$(".chat").prop("disabled", false);
 });
 
 // When the user clicks the submit button to input their zip/city on main screen
@@ -802,11 +804,10 @@ $(document).on("click", ".category", function() {
    		  console.log("user logged in");
    		  loadLoginMessage();
    		  clearUserInput();
- 				$(".search").prop("disabled", false);
-				$(".chat").prop("disabled", false);
    		  $(".account-error-message").hide();
    			$("#logout").show();
    			$("#add-user").hide();
+   			$("#continue").show();
    			$("#continue-as-guest").hide();
    			$("#login").hide();
    	    database.ref().push({
