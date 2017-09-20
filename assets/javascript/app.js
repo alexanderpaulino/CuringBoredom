@@ -1,5 +1,6 @@
 // Global Variables
 var selectedFilter;
+var cuisineReel = 0;
 
 // Write restaurant filters to the page on page load as well as AJAX response as a default setting
 $(document).ready(function () {
@@ -86,8 +87,8 @@ function restaurantAJAXonLoad() {
 	  var lng = "-74.004821";
 
 	 	// var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
-	  // var api = "a46b84ae7de46097b35a230d8d7bfd23"
-	  var api = "a39dc6d6f11e4a9ba81caba88c332778"
+	  var api = "a46b84ae7de46097b35a230d8d7bfd23"
+	  // var api = "a39dc6d6f11e4a9ba81caba88c332778"
 	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api
 
 	  console.log(url)
@@ -166,8 +167,8 @@ function restaurantAJAXEverything() {
 	    }
 
     // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
-    // var api = "a46b84ae7de46097b35a230d8d7bfd23"
-    var api = "a39dc6d6f11e4a9ba81caba88c332778"
+    var api = "a46b84ae7de46097b35a230d8d7bfd23"
+    // var api = "a39dc6d6f11e4a9ba81caba88c332778"
 	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api
 
 	  console.log(url)
@@ -309,8 +310,8 @@ function restaurantAJAX() {
 		  console.log("Cuisine ID: "+cuisineID);
 
 		  // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
-      // var api = "a46b84ae7de46097b35a230d8d7bfd23"
-      var api = "a39dc6d6f11e4a9ba81caba88c332778"
+      var api = "a46b84ae7de46097b35a230d8d7bfd23"
+      // var api = "a39dc6d6f11e4a9ba81caba88c332778"
       var url = "https://developers.zomato.com/api/v2.1/search?start=0&count=10&sort=rating&sort=desc&lat="+lat+"&lon="+lng+"&cuisines="+cuisineID+"&radius=16090&apikey="+api
 
       console.log(url)
@@ -334,7 +335,11 @@ function restaurantAJAX() {
          	$("#eventInfo").append(restaurant);
 
          	var restaurantImage = $("<img>").addClass("food-listing-image");
-          restaurantImage.attr("src", "assets/images/"+cuisineID+".jpg");
+         	++cuisineReel
+          restaurantImage.attr("src", "assets/images/cuisinereels/"+cuisineID+"-"+cuisineReel+".jpg");
+          if (cuisineReel >= 5) {
+          cuisineReel = 0;
+          }
 	      	$("#eventImage").append(restaurantImage);
         };
     }).fail(function(err) {
