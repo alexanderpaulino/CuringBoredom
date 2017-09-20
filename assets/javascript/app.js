@@ -712,7 +712,7 @@ $(document).on("click", ".category", function() {
 		if (childSnapshot.child("sentMessages").exists()) { 
 		      console.log("sent message " + childSnapshot.val().sentMessages);
 		      sentMessages = childSnapshot.val().sentMessages;
-		      $("#chat-messages").append("<li>" + sentMessages + "<br></li>");
+		      $("#chat-messages").append("<li class='chat-message'>" + sentMessages + "</li>");
 		      $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
 		  }
 
