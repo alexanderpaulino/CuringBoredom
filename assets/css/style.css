@@ -1,4 +1,8 @@
 /*********** Global Styles ***********/
+body {
+	background-color: #f4f3f2;
+}
+
 #selected {
 	border-bottom: 3px solid #d36826;
 	color: #d36826;
@@ -8,9 +12,25 @@ button:focus, button:active {
 	outline: none !important;
 }
 
+a {
+	text-decoration: none;
+	font-family: 'Khula', sans-serif;
+}
 
-.label-text {
+.container-fluid {
+	margin: 0 auto;
+}
+
+.label-heading {
 	color: #d36826;
+	font-size: 16px;
+	letter-spacing: .09em;
+}
+
+.label {
+	color: #d36826;
+	font-size: 13.5px;
+	float: left;
 }
 
 .set-width, #filterList {
@@ -18,20 +38,33 @@ button:focus, button:active {
 	margin: 0 auto;
 }
 
-.full-width {
-	width: 100%;
+.submit-button {
+	background-color: #d36826;
+	color: #fff;
+	padding: 8px 12px 8px 12px;
 }
 
 .submit-button:hover {
-	background-color: #d36826;
-	color: #fff;
+	background-color: #fff;
+	color: #d36826;
 }
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 
 
 /*********** Navbar ***********/
 .navbar {
 	margin-bottom: -10px;
 	text-align: center;
+	background-color: #d3e2ea;
 }
 
 .navbar-nav li {
@@ -48,26 +81,33 @@ button:focus, button:active {
 }
 
 
+
 /*********** Main Styling ***********/
 
 .wrapper {
 	background-color: #f4f3f2;
 	padding-top: 20px;
-	width: 100%;
+	max-width: 1200px;
 	overflow: hidden;
 	height: 100%;
+	margin: 0 auto;
+	font-family: 'Khula', sans-serif;
 }
 
 .form-control {
 	margin: 0 auto;
 }
 
-.bored-label {
-	padding-top: 60px;
+.user-input {
+	background-color: #fff;
+	padding: 20px;
+	margin-top: 70px;
+	border-radius: 10px;
 }
 
 .bored-submit-button {
 	display: inline-block;
+	margin-top: 20px;
 }
 
 .categories {
@@ -82,29 +122,13 @@ button:focus, button:active {
 
 .category {	
 	padding: 10px 30px 10px 30px;
+	font-size: 16px;
 	background-color: #f4f3f2;
 	border: none;
 	color: #ed9863;
 }
 
-a {
-	color: black;
-	text-decoration: underline;
-}
-
-a:hover {
-	color: white;
-}
-
-a:focus {
-	color:white;
-}
-
 .cat-restaurants {
-	margin-right: 5%;
-}
-
-.cat-movies {
 	margin-right: 5%;
 }
 
@@ -114,34 +138,65 @@ a:focus {
 
 #filterList {
 	margin-bottom: 30px;
+	width: 35%;
+	height: 40px;
+	cursor: pointer;
 }
 
 #eventView {
 	padding-bottom: 80px;
-}
-
-.event-blocks {
-	width: 95%;
+	width: 85%;
 	margin: 0 auto;
 }
 
-.food-listing, .movie-listing, .event-listing {
+.food-listing h5, .event-listing h5 {
+	display: none;
+}
+
+.food-listing h4 {
+	text-transform: uppercase;
+	letter-spacing: .09em;
+	color: #fff;
+	margin-bottom: -15px;
+}
+
+.event-listing h4 {
+	text-transform: uppercase;
+	letter-spacing: .09em;
+	color: #fff;
+	margin-bottom: 7px;
+}
+
+.food-listing, .event-listing {
 	height: 240px;
-	color: #000;
 	border-radius: 10px 0px 0px 10px;
 	padding: 20px;
+	padding-right: 20px;
 	margin-top: 20px;
+	font-size: 16px;
+	line-height: 1.5;
+	width: 107%;
 }
 
-#eventInfo {
-	margin-left: 30px;
+
+.my-favorite, .view-menu {
+	color: #f7d54f;
+	font-size: 14px;
+	line-height: 1.5;
+	cursor: pointer;
+	display: block;
+	float: right;
+	padding-right: 20px;
 }
 
-#eventImage {
-	margin-left: -30px;
+
+.my-favorite:hover, .view-menu:hover {
+	text-decoration: none;
+	color: #fff;
 }
 
-.food-listing-image, .movie-listing-image, .event-listing-image {
+
+.food-listing-image, .event-listing-image {
 	height: 260px;
 	width: 100%;
 	padding-top: 20px;
@@ -149,26 +204,30 @@ a:focus {
 	border-bottom-right-radius: 1em;
 }
 
-.food-listing {
-	background-color: #42c5f4;
-}
 
-.movie-listing {
-	background-color: #44c4a0;
+.food-listing {
+	background-color: #4b9ac1;
+	color: #cfeaf7;
 }
 
 .event-listing {
 	background-color: #c44444;
+	color: #ffdeb5;
 }
 
-.my-favorite {
-	color: #f7db6a;
+.event-listing a {
+	color: #adc3d8;
+}
+
+.event-listing a:hover {
+	color: #fff;
+	text-decoration: none;
 }
 
 
 /*********** Login Form ***********/
 .login-form {
-	width: 70%;
+	max-width: 70%;
 	margin: 0 auto;
 }
 
@@ -181,6 +240,11 @@ a:focus {
 .login-heading {
 	text-align: center;
 	padding-top: 60px;
+	margin-bottom: -20px;
+	margin-top: -10px;
+	color: #d36826;
+	text-transform: uppercase;
+	letter-spacing: .09em;
 }
 
 .create-account {
@@ -196,17 +260,138 @@ a:focus {
 	color: #d36826;
 }
 
-.login-submit-button {
+#login, #add-user, #logout {
 	margin: 0 auto;
+	margin: 20px 10px 20px 10px;
+	display: inline-block;
+}
+
+.capitalize-center {
+	text-transform: capitalize;
+	text-align: center;
+	margin-bottom: -20px;
+}
+
+.user-name-message {
+	margin-left: -45px;
+}
+
+.capitalize {
+	text-transform: capitalize;
+	font-size: 18px;
+	margin-top: 13px;
+	color: grey;
+}
+
+.error-message, .account-error-message, .no-event-message {
 	display: block;
+	margin-top: 15px;
+	text-align: center;
+	color: red;
+}
+
+
+
+/*********** Chat ***********/
+
+#chat {
+	max-width: 85%;
+	margin: 0 auto;
+}
+
+#send{
 	margin-top: 20px;
+}
+
+#chat-heading {
+	text-align: center;
+}
+
+#chat-heading h3 {
+	text-transform: uppercase;
+	color: #d36826;
+	letter-spacing: .09em;
+}
+
+#chat-heading h5 {
+	font-size: 14px;
+	background-color: #f76767;
+	padding: 10px;
+	max-width: 60%;
+	margin: 0 auto;
+	color: #fff;
+	border-radius: 10px;
+	position: relative;
+	border-radius: .4em;
+}
+
+#chat-heading h5:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 6%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-bottom-color: #f76767;
+	border-top: 0;
+	border-left: 0;
+	margin-left: -10px;
+	margin-top: -12px;
+}
+
+#chat-messages {
+	background-color: #fff;
+	color: #255096;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	padding: 2px 20px 2px 20px;
+	margin: 10px;
+	min-height: 200px;
+	max-height: 600px;
+	overflow-y: scroll;
+}
+
+.chat-error-message {
+	display: block;
+	margin-top: 15px;
+	text-align: left;
+	color: red;
+}
+
+#chat-messages li {
+	background-color: #4b9ac1;
+	margin-top: 10px;
+	list-style-type: none;
+	color: #fff;
+	padding: 8px;
+	width: 65%;
+	position: relative;
+	border-radius: .4em;
+}
+
+#chat-messages li:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #4b9ac1;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -12px;
 }
 
 /*********** Media Queries ***********/
 
-@media screen and (max-width: 991px) {
-	#eventInfo {
-		margin-left: 15px;
+@media screen and (max-width: 997px) {
+
+	.food-listing, .event-listing {
+			width: 109%;
+			padding-right: 20px;
 	}
 
 	.city-state {
@@ -216,9 +401,45 @@ a:focus {
 	.bored-submit-button {
 		margin-top: 20px;
 	}
-	
+
+	#filterList {
+		width: 48%;
+	}
+
+	#eventView {
+		width: 100%;
+	}
 
 }
+
+@media screen and (max-width: 767px) {
+
+	.food-listing, .event-listing {
+			height: 260px;
+	}
+
+	.food-listing-image, .event-listing-image {
+			height: 280px;
+	}
+
+	.my-favorite, .view-menu {
+		width: 100%;
+	}
+
+	.view-menu {
+		margin-top: 23px;
+	}
+
+	.my-favorite {
+		padding-bottom: 5px;
+	}
+
+	#chat-messages li {
+		width: 100%;
+	}
+
+}
+
 
 @media screen and (min-width: 481px) {
 	.navbar-bottom {
@@ -233,6 +454,41 @@ a:focus {
 	}
 }
 
+
+
+@media screen and (max-width: 668px) {
+
+	.food-listing, .event-listing {
+		margin-left: 0;
+		margin-right: 0;
+		font-size: 15px;
+		width: 100%;
+		border-radius: 10px;
+	}
+
+	#eventInfo {
+		margin-left: 0px;
+		width: 100%;
+	}
+
+	#eventImage {
+		display: none;
+	}
+
+	.login-form {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	.login-form input {
+		width: 80%;
+		padding: 25px 10px;
+		margin-top: 20px;
+	}
+}
+
+
+
 @media screen and (max-width: 500px) {
 
 	.category {	
@@ -245,9 +501,38 @@ a:focus {
 	.cat-movies {
 		margin-right: 0;
 	}
+
+	.set-width {
+		width: 85%;
+	}
+
+	#chat-heading h3 {
+		font-size: 20px;
+	}
+
+	#chat-heading h5 {
+		display: none;
+	}
+
 }
 
 @media screen and (max-width: 480px) {
+
+	#eventView {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.user-input {
+		margin-top: 5px;
+	}
+
+	.food-listing, .event-listing {
+		padding-left: 15px;
+		padding-right: 0;
+		width: 100%;
+	} 
+
 	.navbar-top {
 		display: none;
 	}
@@ -256,17 +541,42 @@ a:focus {
 		padding-top: 0;
 	}
 
-	.bored-label {
-		padding-top: 10px;
-	}
-
 	.category-buttons {
 		padding-top: 10px;
 	}
 
 	.navbar-bottom li {
 		display: inline-block;
-		padding: 0 15px 0 15px
+		padding: 0 25px 0 25px
+	}
+
+	.navbar-bottom a {
+		margin-bottom: 5px;
+	}
+
+	#filterList {
+		width: 70%;
+	}
+
+	.login-form {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.login-form input {
+		width: 100%;
+		padding: 25px 10px;
+		margin-top: 20px;
+	}
+
+	.user-name-message {
+		margin-left: -30px;
+	}
+
+	.capitalize-center {
+		text-transform: capitalize;
+		text-align: center;
+		margin-bottom: 30px;
 	}
 
 }
