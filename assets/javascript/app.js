@@ -45,10 +45,6 @@ function createErrorMessage() {
     $(".error-message").html("Please enter a valid US zip code or City and State.");
 }
 
-function createNoEventMessage() {
-    $(".no-event-message").html("No events found. Please enter a different location or select another filter.");
-}
-
 function selectFilter() {
 	$("select.filters").change(function () {
 		selectedFilter = $(".filters option:selected").text();
@@ -508,6 +504,7 @@ function loadChatScreen() {
 										 + "<h5>Discuss events and restaurants you are going to and meet up with new friends!</h5>"));
 	var chatInput   = ($("<input type='text' class='form-control' id='message-input' placeholder='Message'></div></div></div>"
 									   + "<button id='send' class='btn btn-default submit-button'>Send</button>"));
+
 	$("#chat-heading").html(chatHeading);
 	$("#chat-input").html(chatInput);
 }
@@ -552,6 +549,7 @@ function clearUserInput() {
    $("#userEmail").val("");
  }
 
+
 // All on click events
 
 // When the user clicks the search icon in the navbar
@@ -589,8 +587,12 @@ $(document).on("click", ".sign-in", function() {
 		} else {
 			$("#add-user").hide();
    		$("#continue-as-guest").hide();
-   		$("#login").hide();
-   		$("#continue").show();
+   			$("#login").hide();
+
+   		  $(".login-form").hide();
+   		  $(".login-heading").hide();
+
+   			$("#continue").show();
 		}
 });
 
@@ -639,7 +641,6 @@ $(document).on("click", ".category", function() {
 	$(".category").removeAttr("id", "selected");
 	$(this).attr("id", "selected");
 
-
 	if($(this).hasClass("cat-restaurants")) {
 		// Change filter listing
 		loadRestaurantFilters();
@@ -648,17 +649,6 @@ $(document).on("click", ".category", function() {
 		// Write all AJAX response information to the page upon category click
 		restaurantAJAX();
 	}
-
-
-	if($(this).hasClass("cat-movies")) {
-		// Change filter listing
-		loadMovieFilters();
-		// Retrieve default filters on category click with ".default"
-		console.log("Default Filters: " + $(".default").text());
-		// Write all AJAX response information to the page upon category click
-		movieAJAX();
-	}
-
 
 	if($(this).hasClass("cat-events")) {
 		// Change filter listing
@@ -699,71 +689,98 @@ $(document).on("click", ".category", function() {
 });
 
 
+
+
 // Initialize Firebase. Firebase used to save user login information as well as enable a chat room feature.
 var config = {
-  apiKey: "AIzaSyAH0p97UUJUHYcSXplmLkCUDPTbTOWituw",
-  authDomain: "curingboredom-d4b4e.firebaseapp.com",
-  databaseURL: "https://curingboredom-d4b4e.firebaseio.com",
-  projectId: "curingboredom-d4b4e",
-  storageBucket: "curingboredom-d4b4e.appspot.com",
-  messagingSenderId: "403783343234"
+apiKey: "AIzaSyAH0p97UUJUHYcSXplmLkCUDPTbTOWituw",
+authDomain: "curingboredom-d4b4e.firebaseapp.com",
+databaseURL: "https://curingboredom-d4b4e.firebaseio.com",
+projectId: "curingboredom-d4b4e",
+storageBucket: "curingboredom-d4b4e.appspot.com",
+messagingSenderId: "403783343234"
 };
 
 firebase.initializeApp(config);
 
- // Get elements
-  var database = firebase.database();
-	var userName;
-	var userPassword;
-	var userEmail;
-	var sentMessages;
-	var filter;
-	var li;
-	var a; 
-	var i;
+// Get elements
+var database = firebase.database();
+var userName;
+var userPassword;
+var userEmail;
+var sentMessages;
+var filter;
+var li;
+var input;
+var a;
+var i;
+
+// Allow user to filter through chat results
+function filterChat() {
+  chat = $("#chat-messages").text();
+  filter = sentMessages;
+ 	input = $("#myInput");
+  filter = input.val().toUpperCase();
+	li = $("li");
+
+	// Loop through all list items, and hide those who don't match the search query
+	for (i = 0; i < li.length; i++) {
+		console.log("all messages" + li);
+		a = li[i];
+		if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			  li[i].style.display = "";
+		} else {
+			li[i].style.display = "none";
+		}
+	}
+}
 
 
 database.ref().on("child_added", function(childSnapshot) {
-	// Display the username in the navbar to let the user know they are logged in while they use the app.
-	if (childSnapshot.child("userName").exists()) { 
-	      console.log("snapshot username " + childSnapshot.val().userName);
-	      userName = childSnapshot.val().userName; 
-	      $(".user-name-message").html(userName).addClass("capitalize");
-	  }
-	// If chat messages are stored in Firebase, append them to the chat-messages div. 
-	if (childSnapshot.child("sentMessages").exists()) { 
-	      console.log("sent message " + childSnapshot.val().sentMessages);
-	      sentMessages = childSnapshot.val().sentMessages;
-	      $("#chat-messages").append("<li class='chat-message'>" + sentMessages + "</li>");
-	      $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
-	  }
- });
-
- // When user creates a new account
- $(document).on("click", "#add-user", e => { 
- userName = $("#userName").val();
- userPassword = $("#userPassword").val();
- userEmail = $("#userEmail").val();
- // Check e-mail format
- var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-	  $(".account-error-message").html("");
-
-	  if ((userEmail.match(re) !== null) && (userPassword) && (userName)) {
-	  	console.log(userEmail);
- 			// Create user account in Firebase through userEmail, userPassword Firebase authentication.
-			var promise = firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword);
-			promise.catch(e => console.log(e.code));
-			$(".account-error-message").show();
-			promise.catch(e => $(".account-error-message").html(e.message));
-
-	  } else if ((!userEmail) || (!userName) || (!userPassword)) {
-	   	$(".account-error-message").html("Please enter a username, email and password.");
-
-	  } else if (userEmail.match(re) === null) {
-	  	$(".account-error-message").html("Please enter a valid email.");
-	  }
+// Display the username in the navbar to let the user know they are logged in while they use the app.
+if (childSnapshot.child("userName").exists()) { 
+      console.log("snapshot username " + childSnapshot.val().userName);
+      userName = childSnapshot.val().userName; 
+      $(".user-name-message").html(userName).addClass("capitalize");
+  }
+// If chat messages are stored in Firebase, append them to the chat-messages div. 
+if (childSnapshot.child("sentMessages").exists()) { 
+      console.log("sent message " + childSnapshot.val().sentMessages);
+      sentMessages = childSnapshot.val().sentMessages;
+      $("#chat-messages").append("<li class='chat-message'><a>" + sentMessages + "</a></li>");
+      $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");
+      $("#chat-filter").html("<div class='form-group'><input type='text' class='form-control' id='myInput' onkeyup='filterChat()' placeholder='Filter chat by keyword..'></div>");
+  }
 });
+
+
+
+// When user creates a new account
+$(document).on("click", "#add-user", e => { 
+userName = $("#userName").val();
+userPassword = $("#userPassword").val();
+userEmail = $("#userEmail").val();
+// Check e-mail format
+var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+  $(".account-error-message").html("");
+
+  if ((userEmail.match(re) !== null) && (userPassword) && (userName)) {
+  	console.log(userEmail);
+			// Create user account in Firebase through userEmail, userPassword Firebase authentication.
+		var promise = firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword);
+		promise.catch(e => console.log(e.code));
+		$(".account-error-message").show();
+		promise.catch(e => $(".account-error-message").html(e.message));
+
+  } else if ((!userEmail) || (!userName) || (!userPassword)) {
+   	$(".account-error-message").html("Please enter a username, email and password.");
+
+  } else if (userEmail.match(re) === null) {
+  	$(".account-error-message").html("Please enter a valid email.");
+  }
+});
+
 
 // When user logs in, get and check input fields. Utilize Firebase email/password authentication.
 $(document).on("click", "#login", e => { 
@@ -775,37 +792,37 @@ console.log("username: " + userName);
 if ((userName) && (userEmail)) { 
 var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
 
-	promise.catch(e => console.log(e.code));
-	$(".account-error-message").show();
-	promise.catch(e => $(".account-error-message").html(e.message));
+promise.catch(e => console.log(e.code));
+$(".account-error-message").show();
+promise.catch(e => $(".account-error-message").html(e.message));
 
-	} else if ((userName) && (userEmail) && (userPassword)) {
+} else if ((userName) && (userEmail) && (userPassword)) {
 	loadLoginMessage();
 		database.ref().push({
     	userName: userName
     });
-	} else if ((!userName) && (!userPassword) && (!userEmail)) {
+} else if ((!userName) && (!userPassword) && (!userEmail)) {
 	$(".account-error-message").html("Please enter your username, email and password.");
-	} else if ((!userName) && (!userPassword)) {
+} else if ((!userName) && (!userPassword)) {
 	$(".account-error-message").html("Please enter your username and password.");
-	} else if (!userName) {
+} else if (!userName) {
 	$(".account-error-message").html("Please enter your username.");
-	} else if ((!userPassword) && (!userEmail)) {
+} else if ((!userPassword) && (!userEmail)) {
 	var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
 	promise.catch(e => console.log(e.code));
 	$(".account-error-message").show();
 	$(".account-error-message").html("Invalid email and password. Please enter your correct credentials.");
-	} else if (!userPassword) {
+} else if (!userPassword) {
 	var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
 	promise.catch(e => console.log(e.code));
 	$(".account-error-message").show();
 	$(".account-error-message").html("Password invalid. Please enter a correct password.");
-	} else if (!userEmail) {
+} else if (!userEmail) {
 	var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
  	promise.catch(e => console.log(e.code));
 	$(".account-error-message").show();
 	$(".account-error-message").html("Invalid email. Please enter a correct email.");
-	}
+}
 });
 
 // When user logs out
@@ -823,26 +840,29 @@ $(document).on("click", "#logout", e => {
 
 // Add real-time authentication to know when the user logs in and logs out.
 firebase.auth().onAuthStateChanged(firebaseUser => {
-	if(firebaseUser) {
-		console.log(firebaseUser);
-		authdata = firebaseUser;
-	  console.log("user logged in");
-	  loadLoginMessage();
-	  clearUserInput();
-	  $(".account-error-message").hide();
-		$("#logout").show();
-		$("#add-user").hide();
-		$("#continue").show();
-		$("#continue-as-guest").hide();
-		$("#login").hide();
-    database.ref().push({
-		userName: userName
-	});
+		if(firebaseUser) {
+			console.log(firebaseUser);
+			authdata = firebaseUser;
+		  console.log("user logged in");
+		  loadLoginMessage();
+		  clearUserInput();
 
-	} else {
-		console.log("not logged in");
-	  authdata = null;
-	  userName = " ";
-		$("#logout").hide();
-	}
+		  $(".login-form").hide();
+		  $(".login-heading").hide();
+		  $(".account-error-message").hide();
+			$("#logout").show();
+			$("#add-user").hide();
+			$("#continue").show();
+			$("#continue-as-guest").hide();
+			$("#login").hide();
+	    database.ref().push({
+			userName: userName
+		});
+
+		} else {
+			console.log("not logged in");
+		  authdata = null;
+		  userName = " ";
+			$("#logout").hide();
+		}
 });
