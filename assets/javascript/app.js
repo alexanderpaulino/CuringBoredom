@@ -509,6 +509,8 @@ function loadSignInScreen() {
 	$(".category-buttons").hide();
 	var signInScreen = ($("<h1 class='login-message'></h1>"
 						+ "<h3 class='login-heading'>Log in or Sign Up</h3><br><h5 class='create-account'>"
+						+ "<button id='continue-as-guest' class='btn btn-default submit-button'>Continue as Guest</button>"
+						+ "<button id='continue' class='btn btn-default submit-button'>Continue</button>"
 						+ "<div class='account-error-message'></div>"
 						+ "<div class='row'><div class='col-md-12'><div class='form-group login-form'>"
 						+ "<input type='text' class='form-control' id='userName' placeholder='First Name'>"
@@ -565,11 +567,29 @@ $(document).on("click", ".chat", function() {
 // When the user clicks the sign-in icon in the navbar
 $(document).on("click", ".sign-in", function() {
 	loadSignInScreen();
+	$("#chat").hide();
+	$(".search").prop("disabled", true);
+	$(".chat").prop("disabled", true);
 	$(".sign-in").prop("disabled", true);
 	if(userName === " "){
 		$("#logout").hide();
+		$("#continue").hide();
+		} else {
+			$("#add-user").hide();
+   		$("#continue-as-guest").hide();
+   		$("#login").hide();
+   		$("#continue").show();
 		}
-	$("#chat").hide();
+});
+
+// When the user clicks Continue as Guest in login screen
+$(document).on("click", "#continue-as-guest", function() {
+    location.reload();
+});
+
+// When the user clicks Continue in login screen
+$(document).on("click", "#continue", function() {
+    location.reload();
 });
 
 // When the user clicks the submit button to input their zip/city on main screen
@@ -668,7 +688,7 @@ $(document).on("click", ".category", function() {
 
    // Get elements
     var database = firebase.database();
-		var userName = " ";
+		var userName;
 		var userPassword;
 		var userEmail;
 		var sentMessages;
@@ -688,10 +708,11 @@ $(document).on("click", ".category", function() {
 		      $("#chat-messages").append("<li>" + sentMessages + "<br></li>");
 		  }
 	 });
-	
+
+
 
    // When user creates a new account
-   $(document).on("click", "#add-user", function() { 
+   $(document).on("click", "#add-user", e => { 
    userName = $("#userName").val();
    userPassword = $("#userPassword").val();
    userEmail = $("#userEmail").val();
@@ -702,7 +723,6 @@ $(document).on("click", ".category", function() {
 
 		  if ((userEmail.match(re) !== null) && (userPassword) && (userName)) {
 		  	console.log(userEmail);
-		  	clearUserInput();
    			// Create user account in Firebase through userEmail, userPassword Firebase authentication.
 				var promise = firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword);
 				promise.catch(e => console.log(e.code));
@@ -717,13 +737,13 @@ $(document).on("click", ".category", function() {
 		  }
 	});
 
+
    // When user logs in, get and check input fields. Utilize Firebase email/password authentication.
    $(document).on("click", "#login", e => { 
    userName = $("#userName").val();
    userPassword = $("#userPassword").val();
    userEmail = $("#userEmail").val();
 	 console.log("username: " + userName);
-
 
 		if ((userName) && (userEmail)) { 
 		var promise = firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
@@ -734,7 +754,6 @@ $(document).on("click", ".category", function() {
 
     } else if ((userName) && (userEmail) && (userPassword)) {
     	loadLoginMessage();
-			clearUserInput();
 				database.ref().push({
 		    	userName: userName
 		    });
@@ -783,11 +802,17 @@ $(document).on("click", ".category", function() {
    		  console.log("user logged in");
    		  loadLoginMessage();
    		  clearUserInput();
+ 				$(".search").prop("disabled", false);
+				$(".chat").prop("disabled", false);
    		  $(".account-error-message").hide();
    			$("#logout").show();
+   			$("#add-user").hide();
+   			$("#continue-as-guest").hide();
+   			$("#login").hide();
    	    database.ref().push({
     			userName: userName
     		});
+
    		} else {
    			console.log("not logged in");
    		  authdata = null;
