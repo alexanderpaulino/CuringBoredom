@@ -50,6 +50,7 @@ function loadEventFilters() {
 }
 
 function createErrorMessage() {
+		console.log("Error message created")
     $(".error-message").html("Please enter a valid US zip code or City and State.");
 }
 
@@ -75,7 +76,7 @@ function selectFilter() {
 					eventAJAX();
 					console.log("Running eventAJAX");
 				}
-        $(".error-message").remove();
+        $(".error-message").html("");
     }
 	});
 }
@@ -159,26 +160,21 @@ function restaurantAJAXEverything() {
       	return false;
       }
 
-      if (address = zipcode && results[0].address_components[5].short_name != "US") {
-      	createErrorMessage();
-      	console.log(results)
-      	console.log("Not a US location.")
-      	return false;
-      }
+      console.log(results);
 
-      if (address = $("#cityState").val() && results[0].address_components[4].short_name != "US") {
-      	createErrorMessage();
-      	console.log(results)
-      	console.log("Not a US location.")
-      	return false;
-      }
+	    for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
+	        if (results[0].address_components[i].short_name != "US") {
+	        console.log(results[0].address_components[i].short_name)
+	      	console.log("Not a US location.");
+	      	createErrorMessage();
+	      	return false;
+	        }
+	    }
 
     // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
     // var api = "a46b84ae7de46097b35a230d8d7bfd23"
     var api = "a39dc6d6f11e4a9ba81caba88c332778"
 	  var url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lng+"&apikey="+api+"&sort=rating&order=desc"
-
-	  $(".error-message").html("")
 
 	  console.log(url)
 
@@ -188,6 +184,7 @@ function restaurantAJAXEverything() {
 	  }).done(function(result) {
 	  console.log(result);
 	    for (var i = 0; i < result.nearby_restaurants.length; i++) {
+	    	$(".error-message").html("")
 	      var restaurant = $("<div>");
 	      restaurant.addClass("food-listing");
 	      restaurant.append("<h5>"+(i+1)+"</h5>");
@@ -249,19 +246,16 @@ function restaurantAJAX() {
       return false;
       }
 
-      if (address = zipcode && results[0].address_components[5].short_name != "US") {
-      	createErrorMessage();
-      	console.log(results)
-      	console.log("Not a US location.")
-      	return false;
-      }
+      console.log(results);
 
-      if (address = $("#cityState").val() && results[0].address_components[4].short_name != "US") {
-      	createErrorMessage();
-      	console.log(results)
-      	console.log("Not a US location.")
-      	return false;
-      }
+      for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
+	        if (results[0].address_components[i].short_name != "US") {
+	        console.log(results[0].address_components[i].short_name)
+	      	console.log("Not a US location.");
+	      	createErrorMessage();
+	      	return false;
+	        }
+	    }
 
       console.log("Latitude: "+lat);
       console.log("Longitude: "+lng);
@@ -316,13 +310,12 @@ function restaurantAJAX() {
 
       console.log(url)
 
-      $(".error-message").html("")
-
       $.ajax({
       url: url,
       method: 'GET',
       }).done(function(result) {
       console.log(result);
+      $(".error-message").html("")
         for (var i = 0; i < 15; i++) {
           var restaurant = $("<div>");
           restaurant.addClass("food-listing");
@@ -611,7 +604,7 @@ $(document).on("click", ".bored-submit-button", function(event) {
 					eventAJAX();
 					console.log("Running eventAJAX");
 				}
-        $(".error-message").remove();
+        $(".error-message").html("");
     }
 });
 
