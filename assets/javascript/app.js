@@ -255,6 +255,18 @@ function restaurantAJAXEverything() {
 	      if (result.nearby_restaurants[i].restaurant.name === "Pizza Hut") {
 	      restaurantImage.attr("src", "assets/images/cuisines/pizzahut.jpg");
 	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Quiznos") {
+	      restaurantImage.attr("src", "assets/images/cuisines/quiznos.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Five Guys Burgers and Fries") {
+	      restaurantImage.attr("src", "assets/images/cuisines/fiveguys.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "White Castle") {
+	      restaurantImage.attr("src", "assets/images/cuisines/whitecastle.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Chick-Fil-a") {
+	      restaurantImage.attr("src", "assets/images/cuisines/chickfila.jpg");
+	      }
 	    };
 		}).fail(function(err) {
 	  	createNoEventMessage();
@@ -451,6 +463,18 @@ function restaurantAJAX() {
 		      }
 		      if (result.restaurants[i].restaurant.name === "Pizza Hut") {
 		      restaurantImage.attr("src", "assets/images/cuisines/pizzahut.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Quiznos") {
+		      restaurantImage.attr("src", "assets/images/cuisines/quiznos.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Five Guys Burgers and Fries") {
+		      restaurantImage.attr("src", "assets/images/cuisines/fiveguys.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "White Castle") {
+		      restaurantImage.attr("src", "assets/images/cuisines/whitecastle.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Chick-Fil-a") {
+		      restaurantImage.attr("src", "assets/images/cuisines/chickfila.jpg");
 		      }
         };
     }).fail(function(err) {
