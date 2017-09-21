@@ -158,10 +158,20 @@ function restaurantAJAXEverything() {
       	return false;
       };
 
-      if (address === ""){
+      if (results[0].geometry.location_type === "RANGE_INTERPOLATED") {
       	createErrorMessage();
       	return false;
       }
+
+      if (results[0].geometry.location_type === "GEOMETRIC_CENTER") {
+      	createErrorMessage();
+      	return false;
+      }
+
+      if (address === " "){
+      createErrorMessage();
+      return false;
+      };
 
       console.log(results);
 
@@ -250,7 +260,17 @@ function restaurantAJAX() {
       	return false;
       };
 
-      if (address === ""){
+      if (results[0].geometry.location_type === "RANGE_INTERPOLATED") {
+      	createErrorMessage();
+      	return false;
+      }
+
+      if (results[0].geometry.location_type === "GEOMETRIC_CENTER") {
+      	createErrorMessage();
+      	return false;
+      }
+
+      if (address === " "){
       createErrorMessage();
       return false;
       };
