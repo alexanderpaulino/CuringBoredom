@@ -158,6 +158,11 @@ function restaurantAJAXEverything() {
       	return false;
       };
 
+      if (results[0].formatted_address === "United States") {
+      	createErrorMessage();
+      	return false;
+      }
+
       if (results[0].geometry.location_type === "RANGE_INTERPOLATED") {
       	createErrorMessage();
       	return false;
@@ -202,13 +207,42 @@ function restaurantAJAXEverything() {
 	      $("#eventInfo").append(restaurant);
 
 	      var restaurantImage = $("<img>").addClass("food-listing-image");
-	      restaurantImage.attr("src", "assets/images/everything.jpg");
 	      cuisineImage = result.nearby_restaurants[i].restaurant.cuisines.split(",");
 	      if (cuisineImage[0] === "") {
 	      cuisineImage[0] = "everything";	
 	      }
 	     	restaurantImage.attr("src", "assets/images/cuisines/"+cuisineImage[0]+".jpg");
 	      $("#eventImage").append(restaurantImage);
+	      if (result.nearby_restaurants[i].restaurant.name === "Taco Bell") {
+	      restaurantImage.attr("src", "assets/images/cuisines/tacobell.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "McDonald's") {
+	      restaurantImage.attr("src", "assets/images/cuisines/mcdonalds.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Sonic Drive-in") {
+	      restaurantImage.attr("src", "assets/images/cuisines/sonic.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Dunkin' Donuts") {
+	      restaurantImage.attr("src", "assets/images/cuisines/dunkin.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Papa John's Pizza") {
+	      restaurantImage.attr("src", "assets/images/cuisines/papajohns.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Subway") {
+	      restaurantImage.attr("src", "assets/images/cuisines/subway.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Domino's") {
+	      restaurantImage.attr("src", "assets/images/cuisines/dominos.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Little Ceasars Pizza") {
+	      restaurantImage.attr("src", "assets/images/cuisines/littleceasars.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Wendy's") {
+	      restaurantImage.attr("src", "assets/images/cuisines/wendys.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Burger King") {
+	      restaurantImage.attr("src", "assets/images/cuisines/burgerking.jpg");
+	      }
 	    };
 		}).fail(function(err) {
 	  	createNoEventMessage();
@@ -259,6 +293,11 @@ function restaurantAJAX() {
       	createErrorMessage();
       	return false;
       };
+
+      if (results[0].formatted_address === "United States") {
+      	createErrorMessage();
+      	return false;
+      }
 
       if (results[0].geometry.location_type === "RANGE_INTERPOLATED") {
       	createErrorMessage();
@@ -352,13 +391,43 @@ function restaurantAJAX() {
           restaurant.append("Rating Grade: "+result.restaurants[i].restaurant.user_rating.rating_text+"<br>");
          	$("#eventInfo").append(restaurant);
 
-         	var restaurantImage = $("<img>").addClass("food-listing-image");
-         	++cuisineReel
+		     	var restaurantImage = $("<img>").addClass("food-listing-image");
+		     	++cuisineReel
           restaurantImage.attr("src", "assets/images/cuisinereels/"+cuisineID+"-"+cuisineReel+".jpg");
           if (cuisineReel >= 5) {
           cuisineReel = 0;
           }
 	      	$("#eventImage").append(restaurantImage);
+	      	if (result.restaurants[i].restaurant.name === "Taco Bell") {
+		      restaurantImage.attr("src", "assets/images/cuisines/tacobell.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "McDonald's") {
+		      restaurantImage.attr("src", "assets/images/cuisines/mcdonalds.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Sonic Drive-in") {
+		      restaurantImage.attr("src", "assets/images/cuisines/sonic.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Dunkin' Donuts") {
+		      restaurantImage.attr("src", "assets/images/cuisines/dunkin.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Papa John's Pizza") {
+		      restaurantImage.attr("src", "assets/images/cuisines/papajohns.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Subway") {
+		      restaurantImage.attr("src", "assets/images/cuisines/subway.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Domino's") {
+		      restaurantImage.attr("src", "assets/images/cuisines/dominos.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Little Caesars Pizza") {
+		      restaurantImage.attr("src", "assets/images/cuisines/littlecaesars.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Wendy's") {
+		      restaurantImage.attr("src", "assets/images/cuisines/wendys.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Burger King") {
+		      restaurantImage.attr("src", "assets/images/cuisines/burgerking.jpg");
+		      }
         };
     }).fail(function(err) {
       createNoEventMessage();
