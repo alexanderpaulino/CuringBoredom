@@ -243,6 +243,18 @@ function restaurantAJAXEverything() {
 	      if (result.nearby_restaurants[i].restaurant.name === "Burger King") {
 	      restaurantImage.attr("src", "assets/images/cuisines/burgerking.jpg");
 	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "KFC") {
+	      restaurantImage.attr("src", "assets/images/cuisines/kfc.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Arby's") {
+	      restaurantImage.attr("src", "assets/images/cuisines/arbys.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Dairy Queen") {
+	      restaurantImage.attr("src", "assets/images/cuisines/dq.jpg");
+	      }
+	      if (result.nearby_restaurants[i].restaurant.name === "Pizza Hut") {
+	      restaurantImage.attr("src", "assets/images/cuisines/pizzahut.jpg");
+	      }
 	    };
 		}).fail(function(err) {
 	  	createNoEventMessage();
@@ -427,6 +439,18 @@ function restaurantAJAX() {
 		      }
 		      if (result.restaurants[i].restaurant.name === "Burger King") {
 		      restaurantImage.attr("src", "assets/images/cuisines/burgerking.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "KFC") {
+		      restaurantImage.attr("src", "assets/images/cuisines/kfc.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Arby's") {
+		      restaurantImage.attr("src", "assets/images/cuisines/arbys.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Dairy Queen") {
+		      restaurantImage.attr("src", "assets/images/cuisines/dq.jpg");
+		      }
+		      if (result.restaurants[i].restaurant.name === "Pizza Hut") {
+		      restaurantImage.attr("src", "assets/images/cuisines/pizzahut.jpg");
 		      }
         };
     }).fail(function(err) {
