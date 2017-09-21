@@ -141,7 +141,7 @@ function restaurantAJAXEverything() {
 
   	console.log("User inputted address: "+address);
 
-    geocoder.geocode( { 'address': address}, function(results, status) {
+    geocoder.geocode( { 'address': address, componentRestrictions: {country:'US'}}, function(results, status) {
     	console.log(results)
       if (status == google.maps.GeocoderStatus.OK) {
          lat = results[0].geometry.location.lat();
@@ -151,21 +151,19 @@ function restaurantAJAXEverything() {
       console.log("Latitude: "+lat);
       console.log("Longitude: "+lng);
 
+      console.log(results)
+
+      if (results[0].formatted_address.indexOf(address) == -1) {
+      	createErrorMessage();
+      	return false;
+      };
+
       if (address === ""){
       	createErrorMessage();
       	return false;
       }
 
       console.log(results);
-
-	    // for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
-	    //     if (results[0].address_components[i].short_name != "US") {
-	    //     console.log(results[0].address_components[i].short_name)
-	    //   	console.log("Not a US location.");
-	    //   	createErrorMessage();
-	    //   	return false;
-	    //     }
-	    // }
 
     // var api = "a442d0d2eb4fdb705d8f8a1d8331989e"
     var api = "a46b84ae7de46097b35a230d8d7bfd23"
@@ -196,7 +194,6 @@ function restaurantAJAXEverything() {
 	      var restaurantImage = $("<img>").addClass("food-listing-image");
 	      restaurantImage.attr("src", "assets/images/everything.jpg");
 	      cuisineImage = result.nearby_restaurants[i].restaurant.cuisines.split(",");
-	      console.log(cuisineImage[0])
 	      if (cuisineImage[0] === "") {
 	      cuisineImage[0] = "everything";	
 	      }
@@ -240,27 +237,25 @@ function restaurantAJAX() {
 
   	console.log("User inputted address: "+address);
 
-    geocoder.geocode( { 'address': address}, function(results, status) {
+    geocoder.geocode( { 'address': address, componentRestrictions: {country:'US'}}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
          lat = results[0].geometry.location.lat();
          lng = results[0].geometry.location.lng();
-        }
+        };
+
+      console.log(results) 
+
+      if (results[0].formatted_address.indexOf(address) == -1) {
+      	createErrorMessage();
+      	return false;
+      };
 
       if (address === ""){
       createErrorMessage();
       return false;
-      }
+      };
 
       console.log(results);
-
-     //  for (var i=(results[0].address_components.length-1); i < results[0].address_components.length; i++) {
-	    //     if (results[0].address_components[i].short_name != "US") {
-	    //     console.log(results[0].address_components[i].short_name)
-	    //   	console.log("Not a US location.");
-	    //   	createErrorMessage();
-	    //   	return false;
-	    //     }
-	    // }
 
       console.log("Latitude: "+lat);
       console.log("Longitude: "+lng);
@@ -748,13 +743,13 @@ function filterChat() {
 database.ref().on("child_added", function(childSnapshot) {
 // Display the username in the navbar to let the user know they are logged in while they use the app.
 if (childSnapshot.child("userName").exists()) { 
-      console.log("snapshot username " + childSnapshot.val().userName);
+      // console.log("snapshot username " + childSnapshot.val().userName);
       userName = childSnapshot.val().userName; 
       $(".user-name-message").html(userName).addClass("capitalize");
   }
 // If chat messages are stored in Firebase, append them to the chat-messages div. 
 if (childSnapshot.child("sentMessages").exists()) { 
-      console.log("sent message " + childSnapshot.val().sentMessages);
+      // console.log("sent message " + childSnapshot.val().sentMessages);
       sentMessages = childSnapshot.val().sentMessages;
       $("#chat-messages").append("<li class='chat-message'><a>" + sentMessages + "</a></li>");
       $("#chat-messages").animate({"scrollTop": $("#chat-messages")[0].scrollHeight}, "fast");

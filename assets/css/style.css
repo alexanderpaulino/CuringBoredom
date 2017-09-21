@@ -179,9 +179,9 @@ input::-webkit-inner-spin-button {
 }
 
 
-.my-favorite, .view-menu {
+.view-menu {
   color: #f7d54f;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   cursor: pointer;
   display: block;
