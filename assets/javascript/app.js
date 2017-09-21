@@ -42,7 +42,7 @@ function loadEventFilters() {
 }
 
 function createErrorMessage() {
-    $(".error-message").html("Please enter a valid US zip code or City and State.");
+    $(".error-message").html("Please enter a valid US zip code or City and State (case-sensitive).");
 }
 
 function createNoEventMessage() {
