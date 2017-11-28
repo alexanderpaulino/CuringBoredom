@@ -9,7 +9,7 @@ Curing Boredom is an app that allows users to find restaurants and events in the
 
 ## Utilizing the App
 
-* View the app: [Github Pages Project Link](https://alexanderpaulino.github.io/Curing-Boredom/)
+* View the app: [Github Pages Project Link](https://alexanderpaulino.github.io/CuringBoredom/)
 
 * Restaurants in NYC are displayed by default, just to give users a sense of how the app looks and works. 
 * Type in a zip code or city/state to search results in a specific area.
