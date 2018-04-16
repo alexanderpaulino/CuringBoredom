@@ -274,7 +274,7 @@ function restaurantAJAXEverything() {
 	});
 }
 
-function restaurantAJAX() { 
+function restaurantAJAX(event) { 
 		// Write AJAX restaurant response information to the page
 	  event.preventDefault();
 
